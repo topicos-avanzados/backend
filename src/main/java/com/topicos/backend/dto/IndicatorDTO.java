@@ -1,6 +1,5 @@
-package com.topicos.backend.dto.response;
+package com.topicos.backend.dto;
 
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,14 +11,16 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class IndicadorResponseDTO {
+public class IndicatorDTO {
+
   private Long id;
-
-  private Long indicadorId;
-
-  private Long value;
 
   private String name;
 
-  private LocalDateTime date;
+  private String unit;
+
+  private String type;
+
+  private String frequency;
+
 }

@@ -1,8 +1,5 @@
 package com.topicos.backend.persistence.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,20 +15,19 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "indicadores")
-public class Indicador {
+@Table(name = "indicators")
+public class Indicator {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "indicador_id")
-  private Long indicadorId;
-
-  private Long value;
-
   private String name;
 
-  private LocalDateTime date;
+  private String unit;
 
+  private String type;
+
+  private String frequency;
 
 }
