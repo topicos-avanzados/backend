@@ -27,18 +27,20 @@ public class IndicatorService {
   }
 
   public IndicatorValueDTO addIndicatorValue(IndicatorValueDTO indicator) {
-
-    IndicatorValue indicatorValue = this.indicatorValueRepository.save(this.buildIndicatorValue(indicator));
+    //lanzar excepcion si no lo encuentra
+    Indicator ind = this.indicatorRepository.getById(indicator.getIndicatorId());
+    IndicatorValue indicatorValue = this.indicatorValueRepository.save(this.buildIndicatorValue(indicator, ind));
     indicator.setId(indicatorValue.getId());
     return indicator;
   }
 
-  private IndicatorValue buildIndicatorValue(IndicatorValueDTO indicator) {
+  private IndicatorValue buildIndicatorValue(IndicatorValueDTO indicatorValue, Indicator indicator) {
+
     return IndicatorValue
         .builder()
-        .indicatorId(indicator.getIndicatorId())
-        .value(indicator.getValue())
-        .date(indicator.getDate())
+        .indicatorId(indicator)
+        .value(indicatorValue.getValue())
+        .date(indicatorValue.getDate())
         .build();
   }
 

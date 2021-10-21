@@ -26,8 +26,6 @@ public class IndicatorValue {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Long indicatorId;
-
   private Long value;
 
   private LocalDateTime date;
@@ -35,6 +33,6 @@ public class IndicatorValue {
   @ManyToOne
   @JoinColumn(name = "indicator_id")
   @ToString.Exclude
-  private Indicator indicator;
+  private Indicator indicatorId;
 
 }
