@@ -21,6 +21,6 @@ public class IndicatorDTO {
 
   private String type;
 
-  private String frequency;
+  private Long frequency;
 
 }

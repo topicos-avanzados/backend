@@ -6,6 +6,8 @@ import com.topicos.backend.persistence.model.Indicator;
 import com.topicos.backend.persistence.model.IndicatorValue;
 import com.topicos.backend.persistence.repository.IndicatorRepository;
 import com.topicos.backend.persistence.repository.IndicatorValueRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,22 @@ public class IndicatorService {
   private final IndicatorRepository indicatorRepository;
 
   private final IndicatorValueRepository indicatorValueRepository;
+
+  public List<IndicatorDTO> getAllIndicators() {
+    return this.indicatorRepository
+        .findAll()
+        .stream()
+        .map(this::buildIndicatorDTO)
+        .collect(Collectors.toList());
+  }
+
+  public List<IndicatorValueDTO> getAllIndicatorsValues() {
+    return this.indicatorValueRepository
+        .findAll()
+        .stream()
+        .map(this::buildIndicatorValueDTO)
+        .collect(Collectors.toList());
+  }
 
   public IndicatorDTO createIndicator(IndicatorDTO indicator) {
 
@@ -39,6 +57,18 @@ public class IndicatorService {
     return IndicatorValue
         .builder()
         .indicatorId(indicator)
+        .value(indicatorValue.getValue())
+        .date(indicatorValue.getDate())
+        .build();
+  }
+
+  private IndicatorValueDTO buildIndicatorValueDTO(IndicatorValue indicatorValue) {
+
+    return IndicatorValueDTO
+        .builder()
+        .indicatorId(indicatorValue
+            .getIndicatorId()
+            .getId())
         .value(indicatorValue.getValue())
         .date(indicatorValue.getDate())
         .build();

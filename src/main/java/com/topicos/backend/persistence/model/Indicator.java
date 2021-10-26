@@ -28,6 +28,6 @@ public class Indicator {
 
   private String type;
 
-  private String frequency;
+  private Long frequency;
 
 }
