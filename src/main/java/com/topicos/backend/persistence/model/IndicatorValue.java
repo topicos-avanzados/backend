@@ -13,6 +13,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.lang.Nullable;
 
 @Builder
 @Entity
@@ -23,6 +24,7 @@ import lombok.ToString;
 public class IndicatorValue {
 
   @Id
+  @Nullable
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 

@@ -71,6 +71,7 @@ public class IndicatorService {
             .getId())
         .value(indicatorValue.getValue())
         .date(indicatorValue.getDate())
+        .id(indicatorValue.getId())
         .build();
   }
 

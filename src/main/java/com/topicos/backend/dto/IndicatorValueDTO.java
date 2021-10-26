@@ -20,8 +20,6 @@ public class IndicatorValueDTO {
 
   private Long value;
 
-  private String name;
-
   private LocalDateTime date;
 
 }
