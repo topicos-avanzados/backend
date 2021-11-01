@@ -18,20 +18,14 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "indicators")
-public class Indicator {
+@Table(name = "areas")
+public class Area {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String name;
-
-  private String unit;
-
-  private String type;
-
-  private Long frequency;
 
   @ManyToOne
   @JoinColumn(name = "company_id")

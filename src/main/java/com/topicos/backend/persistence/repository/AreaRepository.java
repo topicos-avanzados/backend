@@ -1,15 +1,16 @@
 package com.topicos.backend.persistence.repository;
 
-import com.topicos.backend.persistence.model.Indicator;
+import com.topicos.backend.persistence.model.Area;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IndicatorRepository extends JpaRepository<Indicator, Long> {
+public interface AreaRepository extends JpaRepository<Area, Long> {
 
-  Optional<Indicator> findById(Long id);
+  Optional<Area> findById(Long id);
 
-  List<Indicator> findAllByCompanyId(Long companyId);
+  List<Area> findAllByCompanyId(Long id);
+
 }

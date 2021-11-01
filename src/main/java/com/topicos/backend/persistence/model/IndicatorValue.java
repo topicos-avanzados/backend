@@ -28,7 +28,7 @@ public class IndicatorValue {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Long value;
+  private Double value;
 
   private LocalDateTime date;
 
