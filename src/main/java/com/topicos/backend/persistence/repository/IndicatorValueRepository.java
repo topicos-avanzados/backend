@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IndicatorValueRepository extends JpaRepository<IndicatorValue, Long> {
 
-  Optional<IndicatorValue> findByIndicatorId(Long id);
+  Optional<IndicatorValue> findById(Long id);
 
   List<IndicatorValue> findAllByIndicatorId(Long id);
 

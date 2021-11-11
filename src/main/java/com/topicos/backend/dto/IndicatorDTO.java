@@ -23,4 +23,6 @@ public class IndicatorDTO {
 
   private Long frequency;
 
+  private Long areaId;
+
 }

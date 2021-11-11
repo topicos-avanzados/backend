@@ -1,9 +1,11 @@
 package com.topicos.backend.utils;
 
 import com.topicos.backend.dto.AreaDTO;
+import com.topicos.backend.dto.CompanyDTO;
 import com.topicos.backend.dto.IndicatorDTO;
 import com.topicos.backend.dto.IndicatorValueDTO;
 import com.topicos.backend.persistence.model.Area;
+import com.topicos.backend.persistence.model.Company;
 import com.topicos.backend.persistence.model.Indicator;
 import com.topicos.backend.persistence.model.IndicatorValue;
 
@@ -48,6 +50,9 @@ public interface Mappers {
         .frequency(indicator.getFrequency())
         .type(indicator.getType())
         .unit(indicator.getUnit())
+        .areaId(indicator
+            .getAreaId()
+            .getId())
         .build();
   }
 
@@ -59,6 +64,14 @@ public interface Mappers {
         .companyId(area
             .getCompanyId()
             .getId())
+        .build();
+  }
+
+  static CompanyDTO buildCompanyDTO(Company company) {
+    return CompanyDTO
+        .builder()
+        .id(company.getId())
+        .name(company.getName())
         .build();
   }
 

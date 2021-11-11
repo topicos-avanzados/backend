@@ -11,5 +11,5 @@ public interface IndicatorRepository extends JpaRepository<Indicator, Long> {
 
   Optional<Indicator> findById(Long id);
 
-  List<Indicator> findAllByCompanyId(Long companyId);
+  List<Indicator> findAllByAreaId_Id(Long areaId);
 }

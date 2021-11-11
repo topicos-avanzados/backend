@@ -1,6 +1,5 @@
 package com.topicos.backend.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +16,5 @@ public class CompanyDTO {
   private Long id;
 
   private String name;
-
-  private List<AreaDTO> areasList;
 
 }
