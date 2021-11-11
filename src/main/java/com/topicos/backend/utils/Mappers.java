@@ -37,6 +37,7 @@ public interface Mappers {
         .frequency(indicator.getFrequency())
         .type(indicator.getType())
         .unit(indicator.getUnit())
+        .formula(indicator.getFormula())
         .build();
   }
 
@@ -48,6 +49,7 @@ public interface Mappers {
         .frequency(indicator.getFrequency())
         .type(indicator.getType())
         .unit(indicator.getUnit())
+        .formula((indicator.getFormula()))
         .build();
   }
 

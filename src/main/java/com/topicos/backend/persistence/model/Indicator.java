@@ -33,6 +33,8 @@ public class Indicator {
 
   private Long frequency;
 
+  private String formula;
+
   @ManyToOne
   @JoinColumn(name = "company_id")
   @ToString.Exclude

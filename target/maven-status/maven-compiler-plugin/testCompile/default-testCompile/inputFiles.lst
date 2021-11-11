@@ -1,1 +1,3 @@
-/Users/lferrando/Desktop/topicos/backend/src/test/java/com/topicos/backend/BackendApplicationTests.java
+/Users/agucaceres/Desktop/topicos/backend/src/test/java/com/topicos/backend/unit/IndicatorServiceTest.java
+/Users/agucaceres/Desktop/topicos/backend/src/test/java/com/topicos/backend/integration/IndicatorControllerTest.java
+/Users/agucaceres/Desktop/topicos/backend/src/test/java/com/topicos/backend/BackendApplicationTests.java
