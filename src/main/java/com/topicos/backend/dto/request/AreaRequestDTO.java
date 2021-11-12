@@ -15,6 +15,6 @@ public class AreaRequestDTO {
 
   private String name;
 
-  private Long companyId;
+  private String description;
 
 }

@@ -1,6 +1,6 @@
 package com.topicos.backend.persistence.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,11 +30,16 @@ public class IndicatorValue {
 
   private Double value;
 
-  private LocalDateTime date;
+  private Date date;
 
   @ManyToOne
   @JoinColumn(name = "indicator_id")
   @ToString.Exclude
   private Indicator indicatorId;
+
+  @ManyToOne
+  @JoinColumn(name = "company_id")
+  @ToString.Exclude
+  private Company companyId;
 
 }

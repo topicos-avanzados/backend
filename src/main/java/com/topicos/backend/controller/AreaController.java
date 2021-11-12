@@ -29,12 +29,12 @@ public class AreaController {
 
   //DELETE
   @DeleteMapping("/area/delete")
-  public void deleteArea(@RequestParam Long areaId) {
-    this.areaService.deleteArea(areaId);
+  public void deleteArea(@RequestParam Long id) {
+    this.areaService.deleteArea(id);
   }
 
   //GET
-  @GetMapping("/areas")
+  @GetMapping("/area")
   public List<AreaDTO> getAllAreas(Long companyId) {
     return this.areaService.getAllAreas(companyId);
   }

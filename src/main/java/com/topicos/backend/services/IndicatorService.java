@@ -22,9 +22,9 @@ public class IndicatorService {
 
   private final AreaRepository areaRepository;
 
-  public List<IndicatorDTO> getAllIndicators(Long companyId) {
+  public List<IndicatorDTO> getAllIndicators() {
     return this.indicatorRepository
-        .findAllByAreaId_Id(companyId)
+        .findAll()
         .stream()
         .map(Mappers::buildIndicatorDTO)
         .collect(Collectors.toList());
@@ -32,7 +32,8 @@ public class IndicatorService {
 
   public IndicatorDTO createIndicator(IndicatorDTO indicator) {
 
-    Indicator ind = this.indicatorRepository.save(Mappers.buildIndicator(indicator));
+    Optional<Area> optionalArea = this.areaRepository.findById(indicator.getAreaId());
+    Indicator ind = this.indicatorRepository.save(Mappers.buildIndicator(indicator, optionalArea.get()));
     indicator.setId(ind.getId());
     return indicator;
   }

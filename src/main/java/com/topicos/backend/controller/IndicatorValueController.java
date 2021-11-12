@@ -28,14 +28,16 @@ public class IndicatorValueController {
 
   //DELETE
   @DeleteMapping("/indicator_value/delete")
-  public void deleteIndicatorValue(@RequestParam Long indicatorValueId) {
-    this.indicatorValueService.deleteIndicatorValue(indicatorValueId);
+  public void deleteIndicatorValue(@RequestParam Long id) {
+    this.indicatorValueService.deleteIndicatorValue(id);
   }
 
+  //FIXME EMPRESA E INDICADOR
   //GET
   @GetMapping("/indicator_value")
-  public List<IndicatorValueDTO> getAllIndicatorsValues(@RequestParam Long indicatorId) {
-    return this.indicatorValueService.getAllIndicatorsValues(indicatorId);
+  public List<IndicatorValueDTO> getAllIndicatorsValues(@RequestParam(required = false) Long indicator,
+      @RequestParam(required = false) Long company) {
+    return this.indicatorValueService.getAllIndicatorsValues(indicator, company);
   }
 
   //MODIFICATE

@@ -1,6 +1,6 @@
 package com.topicos.backend.dto;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +20,8 @@ public class IndicatorValueDTO {
 
   private Double value;
 
-  private LocalDateTime date;
+  private Date date;
+
+  private Long companyId;
 
 }

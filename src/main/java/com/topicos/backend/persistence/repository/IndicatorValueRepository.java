@@ -11,6 +11,10 @@ public interface IndicatorValueRepository extends JpaRepository<IndicatorValue, 
 
   Optional<IndicatorValue> findById(Long id);
 
-  List<IndicatorValue> findAllByIndicatorId(Long id);
+  List<IndicatorValue> findAllByIndicatorId_Id(Long indicatorId);
+
+  List<IndicatorValue> findAllByIndicatorId_IdAndCompanyId_Id(Long indicatorId, Long companyId);
+
+  List<IndicatorValue> findAllByCompanyId_Id(Long companyId);
 
 }

@@ -29,12 +29,12 @@ public class CompanyController {
 
   //DELETE
   @DeleteMapping("/company/delete")
-  public void deleteCompany(@RequestParam Long companyId) {
-    this.companyService.deleteCompany(companyId);
+  public void deleteCompany(@RequestParam Long id) {
+    this.companyService.deleteCompany(id);
   }
 
   //GET
-  @GetMapping("/companny")
+  @GetMapping("/company")
   public List<CompanyDTO> getAllCompanys() {
     return this.companyService.getAllCompanys();
   }

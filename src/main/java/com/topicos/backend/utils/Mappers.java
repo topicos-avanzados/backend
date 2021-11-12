@@ -11,12 +11,13 @@ import com.topicos.backend.persistence.model.IndicatorValue;
 
 public interface Mappers {
 
-  static IndicatorValue buildIndicatorValue(IndicatorValueDTO indicatorValue, Indicator indicator) {
+  static IndicatorValue buildIndicatorValue(IndicatorValueDTO indicatorValue, Indicator indicator, Company company) {
     return IndicatorValue
         .builder()
         .indicatorId(indicator)
         .value(indicatorValue.getValue())
         .date(indicatorValue.getDate())
+        .companyId(company)
         .build();
   }
 
@@ -29,16 +30,20 @@ public interface Mappers {
         .value(indicatorValue.getValue())
         .date(indicatorValue.getDate())
         .id(indicatorValue.getId())
+        .companyId(indicatorValue
+            .getCompanyId()
+            .getId())
         .build();
   }
 
-  static Indicator buildIndicator(IndicatorDTO indicator) {
+  static Indicator buildIndicator(IndicatorDTO indicator, Area area) {
     return Indicator
         .builder()
         .name(indicator.getName())
         .frequency(indicator.getFrequency())
         .type(indicator.getType())
         .unit(indicator.getUnit())
+        .areaId(area)
         .build();
   }
 
@@ -61,9 +66,7 @@ public interface Mappers {
         .builder()
         .id(area.getId())
         .name(area.getName())
-        .companyId(area
-            .getCompanyId()
-            .getId())
+        .description(area.getDescription())
         .build();
   }
 
