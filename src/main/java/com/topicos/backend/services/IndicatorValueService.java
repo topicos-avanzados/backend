@@ -1,6 +1,7 @@
 package com.topicos.backend.services;
 
 import com.topicos.backend.dto.IndicatorValueDTO;
+import com.topicos.backend.dto.request.IndicatorValueRequestDTO;
 import com.topicos.backend.persistence.model.Company;
 import com.topicos.backend.persistence.model.Indicator;
 import com.topicos.backend.persistence.model.IndicatorValue;
@@ -54,14 +55,18 @@ public class IndicatorValueService {
         .collect(Collectors.toList());
   }
 
-  public IndicatorValueDTO addIndicatorValue(IndicatorValueDTO indicator) {
+  public IndicatorValueDTO addIndicatorValue(IndicatorValueRequestDTO indicator) {
     //lanzar excepcion si no lo encuentra
-    Indicator ind = this.indicatorRepository.getById(indicator.getIndicatorId());
+    Optional<Indicator> ind = this.indicatorRepository.findById(indicator.getIndicatorId());
     Optional<Company> company = this.companyRepository.findById(indicator.getCompanyId());
     //agregar if
-    IndicatorValue indicatorValue = this.indicatorValueRepository.save(Mappers.buildIndicatorValue(indicator, ind, company.get()));
-    indicator.setId(indicatorValue.getId());
-    return indicator;
+    if (ind.isPresent() && company.isPresent()) {
+      IndicatorValue indicatorValue = this.indicatorValueRepository.save(Mappers.buildIndicatorValue(indicator, ind.get(), company.get()));
+      indicator.setId(indicatorValue.getId());
+
+      return (Mappers.buildIndicatorValueDTO(indicatorValue));
+    }
+    return null;
   }
 
   public void deleteIndicatorValue(Long indicatorValueId) {
@@ -69,8 +74,8 @@ public class IndicatorValueService {
     indicatorValue.ifPresent(this.indicatorValueRepository::delete);
   }
 
-  public IndicatorValueDTO modifyIndicatorValue(IndicatorValueDTO indicator) {
-    Optional<IndicatorValue> optionalIndicatorValue = this.indicatorValueRepository.findById(indicator.getId());
+  public IndicatorValueDTO modifyIndicatorValue(IndicatorValueRequestDTO indicator) {
+    Optional<IndicatorValue> optionalIndicatorValue = this.indicatorValueRepository.findById(indicator.getIndicatorId());
 
     Optional<Company> optionalCompany = this.companyRepository.findById(indicator.getCompanyId());
     if (optionalIndicatorValue.isPresent() && optionalCompany.isPresent()) {

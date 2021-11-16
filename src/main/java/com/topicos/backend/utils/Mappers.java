@@ -4,6 +4,7 @@ import com.topicos.backend.dto.AreaDTO;
 import com.topicos.backend.dto.CompanyDTO;
 import com.topicos.backend.dto.IndicatorDTO;
 import com.topicos.backend.dto.IndicatorValueDTO;
+import com.topicos.backend.dto.request.IndicatorValueRequestDTO;
 import com.topicos.backend.persistence.model.Area;
 import com.topicos.backend.persistence.model.Company;
 import com.topicos.backend.persistence.model.Indicator;
@@ -11,7 +12,7 @@ import com.topicos.backend.persistence.model.IndicatorValue;
 
 public interface Mappers {
 
-  static IndicatorValue buildIndicatorValue(IndicatorValueDTO indicatorValue, Indicator indicator, Company company) {
+  static IndicatorValue buildIndicatorValue(IndicatorValueRequestDTO indicatorValue, Indicator indicator, Company company) {
     return IndicatorValue
         .builder()
         .indicatorId(indicator)

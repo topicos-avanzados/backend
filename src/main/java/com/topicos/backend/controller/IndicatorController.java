@@ -34,7 +34,6 @@ public class IndicatorController {
   }
 
   //GET
-  //FIXME
   @GetMapping("/indicator")
   public List<IndicatorDTO> getAllIndicators() {
     return this.indicatorService.getAllIndicators();

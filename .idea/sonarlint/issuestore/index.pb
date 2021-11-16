@@ -9,8 +9,6 @@ i
 9src/main/java/com/topicos/backend/BackendApplication.java,c/3/c37da0bc759fab8e4214b33897a6f59d8b7194d7
 
 Osrc/main/java/com/topicos/backend/persistence/repository/CompanyRepository.java,e/0/e0703919582f666612fdb87bc0f562c9cb43ba83
-Å
-Qsrc/main/java/com/topicos/backend/persistence/repository/IndicatorRepository.java,f/0/f09786538f2e03af72d420602f1db87ef0f259c0
 m
 =src/main/java/com/topicos/backend/persistence/model/Area.java,b/8/b8ffb74fcf466ab9e0489d15e731d85d35c941da
 |
