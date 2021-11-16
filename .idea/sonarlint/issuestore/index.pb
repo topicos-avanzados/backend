@@ -21,5 +21,3 @@ t
 Dsrc/main/java/com/topicos/backend/dto/request/CompanyRequestDTO.java,1/d/1dac23bbbda90a53457ee1492766f90036c7a899
 n
 >src/main/java/com/topicos/backend/services/CompanyService.java,7/a/7a9721090e1909e80589046735a2ccd76cd43ac4
-p
-@src/main/java/com/topicos/backend/services/IndicatorService.java,7/e/7ef4c46ed34280025a6200fd8873523c79cd09e1
