@@ -16,12 +16,12 @@ public class IndicatorValueDTO {
 
   private Long id;
 
-  private Long indicatorId;
+  private IndicatorDTO indicator;
 
   private Double value;
 
   private Date date;
 
-  private Long companyId;
+  private CompanyDTO company;
 
 }

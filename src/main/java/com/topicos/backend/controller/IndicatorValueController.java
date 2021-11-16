@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE})
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
 @AllArgsConstructor
 public class IndicatorValueController {
 
@@ -32,7 +33,6 @@ public class IndicatorValueController {
     this.indicatorValueService.deleteIndicatorValue(id);
   }
 
-  //FIXME EMPRESA E INDICADOR
   //GET
   @GetMapping("/indicator_value")
   public List<IndicatorValueDTO> getAllIndicatorsValues(@RequestParam(required = false) Long indicator,
@@ -41,7 +41,7 @@ public class IndicatorValueController {
   }
 
   //MODIFICATE
-  @PostMapping("/indicator_value/modify")
+  @PutMapping("/indicator_value/modify")
   public IndicatorValueDTO modifyIndicatorValue(@RequestBody IndicatorValueDTO indicator) {
     return this.indicatorValueService.modifyIndicatorValue(indicator);
   }

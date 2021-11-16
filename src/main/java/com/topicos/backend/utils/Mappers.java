@@ -24,15 +24,11 @@ public interface Mappers {
   static IndicatorValueDTO buildIndicatorValueDTO(IndicatorValue indicatorValue) {
     return IndicatorValueDTO
         .builder()
-        .indicatorId(indicatorValue
-            .getIndicatorId()
-            .getId())
+        .indicator(buildIndicatorDTO(indicatorValue.getIndicatorId()))
         .value(indicatorValue.getValue())
         .date(indicatorValue.getDate())
         .id(indicatorValue.getId())
-        .companyId(indicatorValue
-            .getCompanyId()
-            .getId())
+        .company(buildCompanyDTO(indicatorValue.getCompanyId()))
         .build();
   }
 
