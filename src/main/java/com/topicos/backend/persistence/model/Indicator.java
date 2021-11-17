@@ -33,6 +33,8 @@ public class Indicator {
 
   private Long frequency;
 
+  private String description;
+
   @ManyToOne
   @JoinColumn(name = "area_id")
   @ToString.Exclude

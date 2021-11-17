@@ -4,6 +4,7 @@ import com.topicos.backend.dto.AreaDTO;
 import com.topicos.backend.dto.CompanyDTO;
 import com.topicos.backend.dto.IndicatorDTO;
 import com.topicos.backend.dto.IndicatorValueDTO;
+import com.topicos.backend.dto.request.IndicatorRequestDTO;
 import com.topicos.backend.dto.request.IndicatorValueRequestDTO;
 import com.topicos.backend.persistence.model.Area;
 import com.topicos.backend.persistence.model.Company;
@@ -33,7 +34,7 @@ public interface Mappers {
         .build();
   }
 
-  static Indicator buildIndicator(IndicatorDTO indicator, Area area) {
+  static Indicator buildIndicator(IndicatorRequestDTO indicator, Area area) {
     return Indicator
         .builder()
         .name(indicator.getName())
@@ -41,6 +42,7 @@ public interface Mappers {
         .type(indicator.getType())
         .unit(indicator.getUnit())
         .areaId(area)
+        .description(indicator.getDescription())
         .build();
   }
 
@@ -52,9 +54,8 @@ public interface Mappers {
         .frequency(indicator.getFrequency())
         .type(indicator.getType())
         .unit(indicator.getUnit())
-        .areaId(indicator
-            .getAreaId()
-            .getId())
+        .area(buildAreaDTO(indicator.getAreaId()))
+        .description(indicator.getDescription())
         .build();
   }
 

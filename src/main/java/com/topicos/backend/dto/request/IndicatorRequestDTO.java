@@ -1,4 +1,4 @@
-package com.topicos.backend.dto;
+package com.topicos.backend.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class IndicatorDTO {
+public class IndicatorRequestDTO {
 
   private Long id;
 
@@ -23,7 +23,7 @@ public class IndicatorDTO {
 
   private Long frequency;
 
-  private AreaDTO area;
+  private Long areaId;
 
   private String description;
 
