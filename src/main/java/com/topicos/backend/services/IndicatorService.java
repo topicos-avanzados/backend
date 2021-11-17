@@ -1,6 +1,9 @@
 package com.topicos.backend.services;
 
+import static com.topicos.backend.utils.Mappers.buildIndicatorDTO;
+
 import com.topicos.backend.dto.IndicatorDTO;
+import com.topicos.backend.dto.request.IndicatorRequestDTO;
 import com.topicos.backend.persistence.model.Area;
 import com.topicos.backend.persistence.model.Indicator;
 import com.topicos.backend.persistence.repository.AreaRepository;
@@ -12,6 +15,7 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -30,27 +34,33 @@ public class IndicatorService {
         .collect(Collectors.toList());
   }
 
-  public IndicatorDTO createIndicator(IndicatorDTO indicator) {
+  public IndicatorDTO createIndicator(IndicatorRequestDTO indicator) {
 
     Optional<Area> optionalArea = this.areaRepository.findById(indicator.getAreaId());
     Indicator ind = this.indicatorRepository.save(Mappers.buildIndicator(indicator, optionalArea.get()));
     indicator.setId(ind.getId());
-    return indicator;
+    return buildIndicatorDTO(ind);
   }
 
+  @Transactional
   public void deleteIndicator(Long indicatorId) {
     Optional<Indicator> indicator = this.indicatorRepository.findById(indicatorId);
     indicator.ifPresent(this.indicatorRepository::delete);
   }
 
-  public IndicatorDTO modifyIndicator(IndicatorDTO indicator) {
+  public IndicatorDTO modifyIndicator(IndicatorRequestDTO indicator) {
     Optional<Indicator> optionalIndicator = this.indicatorRepository.findById(indicator.getId());
     Optional<Area> optionalArea = this.areaRepository.findById(indicator.getAreaId());
     if (optionalIndicator.isPresent() && optionalArea.isPresent()) {
       Indicator indicatorToSave = optionalIndicator.get();
       indicatorToSave.setAreaId(optionalArea.get());
+      indicatorToSave.setDescription(indicator.getDescription());
+      indicatorToSave.setFrequency(indicator.getFrequency());
+      indicatorToSave.setType(indicator.getType());
+      indicatorToSave.setName(indicator.getName());
+      indicatorToSave.setUnit(indicator.getUnit());
       this.indicatorRepository.save(indicatorToSave);
-      return Mappers.buildIndicatorDTO(indicatorToSave);
+      return buildIndicatorDTO(indicatorToSave);
     }
     //FIXME NULL O QUE DEVUELVA OTRA COSA?
     return null;

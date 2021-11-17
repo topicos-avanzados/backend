@@ -1,6 +1,4 @@
 
-7
-pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
 p
 @src/test/java/com/topicos/backend/unit/IndicatorServiceTest.java,a/f/af8214e4143d34b2753027bd58c85dae2f8ce2da
 n
@@ -9,8 +7,6 @@ i
 9src/main/java/com/topicos/backend/BackendApplication.java,c/3/c37da0bc759fab8e4214b33897a6f59d8b7194d7
 
 Osrc/main/java/com/topicos/backend/persistence/repository/CompanyRepository.java,e/0/e0703919582f666612fdb87bc0f562c9cb43ba83
-m
-=src/main/java/com/topicos/backend/persistence/model/Area.java,b/8/b8ffb74fcf466ab9e0489d15e731d85d35c941da
 |
 Lsrc/main/java/com/topicos/backend/persistence/repository/AreaRepository.java,0/5/051b664c84d79abe7b2fe279bad9406735810d45
 q

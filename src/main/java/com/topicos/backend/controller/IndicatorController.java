@@ -1,6 +1,7 @@
 package com.topicos.backend.controller;
 
 import com.topicos.backend.dto.IndicatorDTO;
+import com.topicos.backend.dto.request.IndicatorRequestDTO;
 import com.topicos.backend.services.IndicatorService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class IndicatorController {
 
   //CREATE
   @PostMapping("/indicator/create")
-  public IndicatorDTO addIndicator(@RequestBody IndicatorDTO indicator) {
+  public IndicatorDTO addIndicator(@RequestBody IndicatorRequestDTO indicator) {
     return this.indicatorService.createIndicator(indicator);
   }
 
@@ -41,7 +42,7 @@ public class IndicatorController {
 
   //MODIFICATE
   @PutMapping("/indicator/modify")
-  public IndicatorDTO modifyIndicator(@RequestBody IndicatorDTO indicator) {
+  public IndicatorDTO modifyIndicator(@RequestBody IndicatorRequestDTO indicator) {
     return this.indicatorService.modifyIndicator(indicator);
   }
 
