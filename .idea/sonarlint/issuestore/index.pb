@@ -9,7 +9,3 @@ i
 Osrc/main/java/com/topicos/backend/persistence/repository/CompanyRepository.java,e/0/e0703919582f666612fdb87bc0f562c9cb43ba83
 |
 Lsrc/main/java/com/topicos/backend/persistence/repository/AreaRepository.java,0/5/051b664c84d79abe7b2fe279bad9406735810d45
-q
-Asrc/main/java/com/topicos/backend/dto/request/AreaRequestDTO.java,0/e/0eeabe305b7facd6659aeaea7d9d9e36f82b7f8a
-k
-;src/main/java/com/topicos/backend/services/AreaService.java,4/8/48d33971d62057ce09621deb8a72b52b9660d4d7
