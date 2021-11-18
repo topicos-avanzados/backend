@@ -37,7 +37,7 @@ public class CompanyController {
   //GET
   @GetMapping("/company")
   public List<CompanyDTO> getAllCompanys() {
-    return this.companyService.getAllCompanys();
+    return this.companyService.getAllCompanies();
   }
 
   //MODIFICATE

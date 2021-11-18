@@ -4,6 +4,7 @@ import com.topicos.backend.dto.AreaDTO;
 import com.topicos.backend.dto.CompanyDTO;
 import com.topicos.backend.dto.IndicatorDTO;
 import com.topicos.backend.dto.IndicatorValueDTO;
+import com.topicos.backend.dto.request.CompanyRequestDTO;
 import com.topicos.backend.dto.request.IndicatorRequestDTO;
 import com.topicos.backend.dto.request.IndicatorValueRequestDTO;
 import com.topicos.backend.persistence.model.Area;
@@ -73,6 +74,20 @@ public interface Mappers {
         .builder()
         .id(company.getId())
         .name(company.getName())
+        .businessName(company.getBusinessName())
+        .rut(company.getRut())
+        .businessArea(company.getBusinessArea())
+        .build();
+  }
+
+
+  static Company buildCompany(CompanyRequestDTO company) {
+    return Company
+        .builder()
+        .name(company.getName())
+        .businessName(company.getBusinessName())
+        .rut(company.getRut())
+        .businessArea(company.getBusinessArea())
         .build();
   }
 
