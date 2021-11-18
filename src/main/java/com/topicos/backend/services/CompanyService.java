@@ -19,7 +19,7 @@ public class CompanyService {
 
   private final CompanyRepository companyRepository;
 
-  public List<CompanyDTO> getAllCompanys() {
+  public List<CompanyDTO> getAllCompanies() {
     return this.companyRepository
         .findAll()
         .stream()
@@ -28,15 +28,8 @@ public class CompanyService {
   }
 
   public CompanyDTO addCompany(CompanyRequestDTO companyRequest) {
-    Company company = this.companyRepository.save(Company
-        .builder()
-        .name(companyRequest.getName())
-        .build());
-    return CompanyDTO
-        .builder()
-        .id(company.getId())
-        .name(company.getName())
-        .build();
+    Company company = this.companyRepository.save(Mappers.buildCompany(companyRequest));
+    return Mappers.buildCompanyDTO(company);
   }
 
   public void deleteCompany(Long companyId) {
@@ -50,10 +43,12 @@ public class CompanyService {
     if (optionalCompany.isPresent()) {
       Company com = optionalCompany.get();
       com.setName(company.getName());
+      com.setBusinessArea(company.getBusinessArea());
+      com.setRut(company.getRut());
+      com.setBusinessName(company.getBusinessName());
       this.companyRepository.save(com);
       return Mappers.buildCompanyDTO(com);
     }
-    //FIXME NULL O QUE DEVUELVA OTRA COSA?
     return null;
   }
 

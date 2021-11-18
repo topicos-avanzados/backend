@@ -13,7 +13,3 @@ q
 Asrc/main/java/com/topicos/backend/dto/request/AreaRequestDTO.java,0/e/0eeabe305b7facd6659aeaea7d9d9e36f82b7f8a
 k
 ;src/main/java/com/topicos/backend/services/AreaService.java,4/8/48d33971d62057ce09621deb8a72b52b9660d4d7
-t
-Dsrc/main/java/com/topicos/backend/dto/request/CompanyRequestDTO.java,1/d/1dac23bbbda90a53457ee1492766f90036c7a899
-n
->src/main/java/com/topicos/backend/services/CompanyService.java,7/a/7a9721090e1909e80589046735a2ccd76cd43ac4

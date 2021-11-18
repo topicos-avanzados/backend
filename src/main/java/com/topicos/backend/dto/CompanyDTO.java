@@ -17,4 +17,10 @@ public class CompanyDTO {
 
   private String name;
 
+  private Integer rut;
+
+  private String businessName;
+
+  private String businessArea;
+
 }
