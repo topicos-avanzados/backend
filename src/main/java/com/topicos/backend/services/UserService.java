@@ -35,7 +35,7 @@ public class UserService {
 
   private final AuthenticationManager authenticationManager;
 
-  private PasswordEncoder bcryptEncoder;
+  private final PasswordEncoder bcryptEncoder;
 
 
   public UserDTO saveAndSendMail(NewUserDTO userRequestDTO, String token) {
@@ -58,7 +58,7 @@ public class UserService {
         String newToken = this.jwtTokenUtil.generateToken(details, false, newUser
             .getCompanyId()
             .getId());
-        System.out.println(newToken);
+        //System.out.println(newToken);
         //TODO SEND MAIL
 
         return Mappers.buildUserDTO(newUser);

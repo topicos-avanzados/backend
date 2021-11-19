@@ -33,12 +33,12 @@ public class UserController {
   }
 
   @PostMapping(value = "/user/login")
-  public String createAuthenticationToken(@RequestBody UserCredentialDTO user) throws Exception {
+  public String createAuthenticationToken(@RequestBody UserCredentialDTO user) {
     return this.userService.loginAndGenerateToken(user);
   }
 
   @PostMapping(value = "/user/admin")
-  public String newAdmin(@RequestBody UserCredentialDTO user) throws Exception {
+  public String newAdmin(@RequestBody UserCredentialDTO user) {
     return this.userService.newAdmin(user);
   }
 
