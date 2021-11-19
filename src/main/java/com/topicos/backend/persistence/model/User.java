@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,7 @@ import lombok.ToString;
 @Entity
 @Builder
 @ToString
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
 public class User {
 
   @Id
@@ -33,6 +34,8 @@ public class User {
   private Boolean admin;
 
   private String mail;
+
+  private Boolean active;
 
   @ManyToOne
   @JoinColumn(name = "company_id")

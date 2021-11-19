@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.lang.Nullable;
 
 @Builder
 @Entity
@@ -31,6 +32,7 @@ public class Indicator {
 
   private String type;
 
+  @Nullable
   private Long frequency;
 
   private String description;

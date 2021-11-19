@@ -1,6 +1,7 @@
 package com.topicos.backend.security;
 
 
+import com.topicos.backend.services.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +11,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
   @Autowired
-  private UserDetailsService jwtUserDetailsService;
+  private JwtUserDetailsService jwtUserDetailsService;
 
   @Autowired
   private JwtRequestFilter jwtRequestFilter;
@@ -57,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          * dont authenticate this particular request
          */
         .authorizeRequests()
-        .antMatchers("/authenticate", "/register")
+        .antMatchers("/user/login", "/user/register", "/user/admin")
         .permitAll()
         .anyRequest()
         .authenticated()
@@ -78,5 +78,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
   }
-
 }

@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticateService {
 
-  private AuthenticationManager authenticationManager;
+  private final AuthenticationManager authenticationManager;
 
-  private JwtTokenUtil jwtTokenUtil;
+  private final JwtTokenUtil jwtTokenUtil;
 
-  private JwtUserDetailsService userDetailsService;
+  private final JwtUserDetailsService userDetailsService;
 
   @Autowired
   public AuthenticateService(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
@@ -32,14 +32,11 @@ public class AuthenticateService {
     return authentication.isAuthenticated();
   }
 
-  public JwtResponseDTO newToken(UserCredentialDTO userRequestDTO, String company) {
+  public JwtResponseDTO newToken(UserCredentialDTO userRequestDTO, Long company, Boolean admin) {
     this.authenticate(userRequestDTO.getUsername(), userRequestDTO.getPassword());
     final UserDetails userDetails = userDetailsService.loadUserByUsername(userRequestDTO.getUsername());
 
-    final Boolean admin = userDetailsService.isAdmin(userRequestDTO.getUsername());
-
     final String token = this.jwtTokenUtil.generateToken(userDetails, admin, company);
-
     return new JwtResponseDTO(token);
   }
 

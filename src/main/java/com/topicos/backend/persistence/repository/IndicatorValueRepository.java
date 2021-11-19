@@ -17,4 +17,5 @@ public interface IndicatorValueRepository extends JpaRepository<IndicatorValue, 
 
   List<IndicatorValue> findAllByCompanyId_Id(Long companyId);
 
+  //List<IndicatorValue> findAllByCompanyId_IdAndDateBetweenOrderByDate(Long companyId, Date initial, Date finish);
 }

@@ -15,8 +15,6 @@ public class NewUserDTO {
 
   private String username;
 
-  private String password;
-
   private String mail;
 
   private Long companyId;
