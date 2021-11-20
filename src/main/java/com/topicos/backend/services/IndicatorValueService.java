@@ -9,6 +9,8 @@ import com.topicos.backend.persistence.repository.CompanyRepository;
 import com.topicos.backend.persistence.repository.IndicatorRepository;
 import com.topicos.backend.persistence.repository.IndicatorValueRepository;
 import com.topicos.backend.utils.Mappers;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,20 +23,28 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class IndicatorValueService {
-
+  
   private final IndicatorRepository indicatorRepository;
 
   private final IndicatorValueRepository indicatorValueRepository;
 
   private final CompanyRepository companyRepository;
 
-  public List<IndicatorValueDTO> getAllIndicatorsValues(Long indicatorId, Long companyId) {
+  public List<IndicatorValueDTO> getAllIndicatorsValues(Long indicatorId, Long companyId, Date from, Date to) {
     if (!Objects.isNull(indicatorId) && !Objects.isNull(companyId)) {
-      return this.indicatorValueRepository
+      if (!Objects.isNull(from) && !Objects.isNull(to)) {
+        return this.indicatorValueRepository
+          .findAllByIndicatorIdCompanyIdAndDateRanges(indicatorId, companyId, from, to)
+          .stream()
+          .map(Mappers::buildIndicatorValueDTO)
+          .collect(Collectors.toList());
+      }else{
+        return this.indicatorValueRepository
           .findAllByIndicatorId_IdAndCompanyId_Id(indicatorId, companyId)
           .stream()
           .map(Mappers::buildIndicatorValueDTO)
           .collect(Collectors.toList());
+      }
     } else if (!Objects.isNull(indicatorId)) {
       return this.indicatorValueRepository
           .findAllByIndicatorId_Id(indicatorId)
