@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,25 +25,25 @@ public class IndicatorController {
 
   //CREATE
   @PostMapping("/indicator/create")
-  public IndicatorDTO addIndicator(@RequestBody IndicatorRequestDTO indicator) {
+  public IndicatorDTO addIndicator(@RequestBody IndicatorRequestDTO indicator, @RequestHeader("Authorization") String token) {
     return this.indicatorService.createIndicator(indicator);
   }
 
   //DELETE
   @DeleteMapping("/indicator/delete")
-  public void deleteIndicator(@RequestParam Long id) {
+  public void deleteIndicator(@RequestParam Long id, @RequestHeader("Authorization") String token) {
     this.indicatorService.deleteIndicator(id);
   }
 
   //GET
   @GetMapping("/indicator")
-  public List<IndicatorDTO> getAllIndicators() {
+  public List<IndicatorDTO> getAllIndicators(@RequestHeader("Authorization") String token) {
     return this.indicatorService.getAllIndicators();
   }
 
   //MODIFICATE
   @PutMapping("/indicator/modify")
-  public IndicatorDTO modifyIndicator(@RequestBody IndicatorRequestDTO indicator) {
+  public IndicatorDTO modifyIndicator(@RequestBody IndicatorRequestDTO indicator, @RequestHeader("Authorization") String token) {
     return this.indicatorService.modifyIndicator(indicator);
   }
 

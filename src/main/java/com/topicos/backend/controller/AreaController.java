@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,25 +25,25 @@ public class AreaController {
 
   //CREATE
   @PostMapping("/area/create")
-  public AreaDTO addArea(@RequestBody AreaRequestDTO areaDTO) {
+  public AreaDTO addArea(@RequestBody AreaRequestDTO areaDTO, @RequestHeader("Authorization") String token) {
     return this.areaService.addArea(areaDTO);
   }
 
   //DELETE
   @DeleteMapping("/area/delete")
-  public void deleteArea(@RequestParam Long id) {
+  public void deleteArea(@RequestParam Long id, @RequestHeader("Authorization") String token) {
     this.areaService.deleteArea(id);
   }
 
   //GET
   @GetMapping("/area")
-  public List<AreaDTO> getAllAreas(Long companyId) {
+  public List<AreaDTO> getAllAreas(Long companyId, @RequestHeader("Authorization") String token) {
     return this.areaService.getAllAreas(companyId);
   }
 
   //MODIFICATE
   @PutMapping("/area/modify")
-  public AreaDTO modifyArea(@RequestBody AreaDTO areaDTO) {
+  public AreaDTO modifyArea(@RequestBody AreaDTO areaDTO, @RequestHeader("Authorization") String token) {
     return this.areaService.modifyArea(areaDTO);
   }
 
