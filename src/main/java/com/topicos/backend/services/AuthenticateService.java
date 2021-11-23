@@ -33,8 +33,8 @@ public class AuthenticateService {
   }
 
   public JwtResponseDTO newToken(UserCredentialDTO userRequestDTO, Long company, Boolean admin) {
-    this.authenticate(userRequestDTO.getUsername(), userRequestDTO.getPassword());
-    final UserDetails userDetails = userDetailsService.loadUserByUsername(userRequestDTO.getUsername());
+    this.authenticate(userRequestDTO.getMail(), userRequestDTO.getPassword());
+    final UserDetails userDetails = userDetailsService.loadUserByUsername(userRequestDTO.getMail());
 
     final String token = this.jwtTokenUtil.generateToken(userDetails, admin, company);
     return new JwtResponseDTO(token);

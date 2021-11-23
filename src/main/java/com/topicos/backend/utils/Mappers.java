@@ -98,7 +98,6 @@ public interface Mappers {
         .builder()
         .mail(user.getMail())
         .company(buildCompanyDTO(user.getCompanyId()))
-        .username(user.getUsername())
         .id(user.getId())
         .build();
   }

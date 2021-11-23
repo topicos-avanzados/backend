@@ -2,6 +2,8 @@ package com.topicos.backend.controller;
 
 import com.topicos.backend.dto.CompanyDTO;
 import com.topicos.backend.dto.request.CompanyRequestDTO;
+import com.topicos.backend.exceptions.UnauthorizedException;
+import com.topicos.backend.security.JwtTokenUtil;
 import com.topicos.backend.services.CompanyService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -23,16 +25,24 @@ public class CompanyController {
 
   private final CompanyService companyService;
 
+  private final JwtTokenUtil jwtTokenUtil;
+
   //CREATE
   @PostMapping("/company/create")
   public CompanyDTO addCompany(@RequestBody CompanyRequestDTO company, @RequestHeader("Authorization") String token) {
-    return this.companyService.addCompany(company);
+    if (this.jwtTokenUtil.getAdminFromToken(token)) {
+      return this.companyService.addCompany(company);
+    }
+    throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
   }
 
   //DELETE
   @DeleteMapping("/company/delete")
   public void deleteCompany(@RequestParam Long id, @RequestHeader("Authorization") String token) {
-    this.companyService.deleteCompany(id);
+    if (this.jwtTokenUtil.getAdminFromToken(token)) {
+      this.companyService.deleteCompany(id);
+    }
+    throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
   }
 
   //GET
@@ -41,7 +51,7 @@ public class CompanyController {
     return this.companyService.getAllCompanies();
   }
 
-  //MODIFICATE
+  //MODIFICATION
   @PutMapping("/company/modify")
   public CompanyDTO modifyCompany(@RequestBody CompanyDTO company, @RequestHeader("Authorization") String token) {
     return this.companyService.modifyCompany(company);

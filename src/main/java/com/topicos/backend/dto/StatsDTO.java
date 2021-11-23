@@ -1,4 +1,4 @@
-package com.topicos.backend.dto.request;
+package com.topicos.backend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +11,16 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserCredentialDTO {
+public class StatsDTO {
 
-  private String mail;
+  private int areas;
 
-  private String password;
+  private int companies;
+
+  private int indicators;
+
+  private int indicatorsValues;
+
+  private int users;
 
 }

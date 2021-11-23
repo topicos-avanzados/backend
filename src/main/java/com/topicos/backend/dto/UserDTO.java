@@ -15,8 +15,6 @@ public class UserDTO {
 
   private Integer id;
 
-  private String username;
-
   private String mail;
 
   private CompanyDTO company;

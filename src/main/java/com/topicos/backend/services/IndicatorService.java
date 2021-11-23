@@ -35,7 +35,6 @@ public class IndicatorService {
   }
 
   public IndicatorDTO createIndicator(IndicatorRequestDTO indicator) {
-
     Optional<Area> optionalArea = this.areaRepository.findById(indicator.getAreaId());
     Indicator ind = this.indicatorRepository.save(Mappers.buildIndicator(indicator, optionalArea.get()));
     indicator.setId(ind.getId());
@@ -62,7 +61,6 @@ public class IndicatorService {
       this.indicatorRepository.save(indicatorToSave);
       return buildIndicatorDTO(indicatorToSave);
     }
-    //FIXME NULL O QUE DEVUELVA OTRA COSA?
     return null;
   }
 

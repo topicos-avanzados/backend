@@ -29,42 +29,40 @@ public class JwtUserDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Optional<User> user = userRepository.findByUsername(username);
+    Optional<User> user = userRepository.findByMail(username);
     if (user.isEmpty()) {
-      throw new ApiException(user
-          .get()
-          .getUsername(), "Username not exists", HttpStatus.NOT_FOUND.value());
+      throw new ApiException(username, "Username not exists", HttpStatus.NOT_FOUND.value());
     }
     return new org.springframework.security.core.userdetails.User(user
         .get()
-        .getUsername(), user
+        .getMail(), user
         .get()
         .getPassword(), new ArrayList<>());
   }
 
   public UserDetails saveUserByUsername(String username) throws UsernameNotFoundException {
-    Optional<User> user = userRepository.findByUsername(username);
-    if (user.isPresent()) {
+    Optional<User> user = userRepository.findByMail(username);
+    if (!user.isPresent()) {
       throw new ApiException(user
           .get()
-          .getUsername(), "Username not exists", HttpStatus.NOT_FOUND.value());
+          .getMail(), "Username not exists", HttpStatus.NOT_FOUND.value());
     }
     return new org.springframework.security.core.userdetails.User(user
         .get()
-        .getUsername(), user
+        .getMail(), user
         .get()
         .getPassword(), new ArrayList<>());
   }
 
   public boolean autorizado(String username, Map<String, String> params) throws Exception {
-    Optional<User> user = userRepository.findByUsername(username);
+    Optional<User> user = userRepository.findByMail(username);
 
     if (!user
         .get()
         .getAdmin()) {
       throw new ApiException(user
           .get()
-          .getUsername(), "Username unauthorized", HttpStatus.UNAUTHORIZED.value());
+          .getMail(), "Username unauthorized", HttpStatus.UNAUTHORIZED.value());
     }
     return true;
   }
@@ -72,13 +70,12 @@ public class JwtUserDetailsService implements UserDetailsService {
   @Transactional
   public void save(UserDTO userRequestDTO) {
     User user = userRepository
-        .findByUsername(userRequestDTO.getUsername())
+        .findByMail(userRequestDTO.getMail())
         .orElse(null);
     if (user == null) {
       User newUser = User
           .builder()
           .admin(false)
-          .username(userRequestDTO.getUsername())
           .mail(userRequestDTO.getMail())
           .build();
 
@@ -89,7 +86,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
   @Transactional
   public void update(UserCredentialDTO userRequestDTO) {
-    Optional<User> user = this.userRepository.findByUsername(userRequestDTO.getUsername());
+    Optional<User> user = this.userRepository.findByMail(userRequestDTO.getMail());
     user
         .get()
         .setPassword(this.bcryptEncoder.encode(userRequestDTO.getPassword()));

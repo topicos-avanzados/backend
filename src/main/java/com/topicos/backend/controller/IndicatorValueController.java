@@ -2,6 +2,8 @@ package com.topicos.backend.controller;
 
 import com.topicos.backend.dto.IndicatorValueDTO;
 import com.topicos.backend.dto.request.IndicatorValueRequestDTO;
+import com.topicos.backend.exceptions.UnauthorizedException;
+import com.topicos.backend.security.JwtTokenUtil;
 import com.topicos.backend.services.IndicatorValueService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -23,31 +25,45 @@ public class IndicatorValueController {
 
   private final IndicatorValueService indicatorValueService;
 
+  private final JwtTokenUtil jwtTokenUtil;
+
   //CREATE
   @PostMapping("/indicator_value/create")
   public IndicatorValueDTO addIndicatorValue(@RequestBody IndicatorValueRequestDTO indicator,
       @RequestHeader("Authorization") String token) {
-    return this.indicatorValueService.addIndicatorValue(indicator);
+    if (!this.jwtTokenUtil.getAdminFromToken(token)) {
+      return this.indicatorValueService.addIndicatorValue(indicator);
+    }
+    throw new UnauthorizedException("The user is an admin", "The user is an admin");
   }
 
   //DELETE
   @DeleteMapping("/indicator_value/delete")
   public void deleteIndicatorValue(@RequestParam Long id, @RequestHeader("Authorization") String token) {
-    this.indicatorValueService.deleteIndicatorValue(id);
+    if (!this.jwtTokenUtil.getAdminFromToken(token)) {
+      this.indicatorValueService.deleteIndicatorValue(id);
+    }
+    throw new UnauthorizedException("The user is an admin", "The user is an admin");
   }
 
   //GET
   @GetMapping("/indicator_value")
   public List<IndicatorValueDTO> getAllIndicatorsValues(@RequestParam(required = false) Long indicator,
       @RequestParam(required = false) Long company, @RequestHeader("Authorization") String token) {
-    return this.indicatorValueService.getAllIndicatorsValues(indicator, company);
+    if (!this.jwtTokenUtil.getAdminFromToken(token)) {
+      return this.indicatorValueService.getAllIndicatorsValues(indicator, company);
+    }
+    throw new UnauthorizedException("The user is an admin", "The user is an admin");
   }
 
-  //MODIFICATE
+  //MODIFICATION
   @PutMapping("/indicator_value/modify")
   public IndicatorValueDTO modifyIndicatorValue(@RequestBody IndicatorValueRequestDTO indicator,
       @RequestHeader("Authorization") String token) {
-    return this.indicatorValueService.modifyIndicatorValue(indicator);
+    if (!this.jwtTokenUtil.getAdminFromToken(token)) {
+      return this.indicatorValueService.modifyIndicatorValue(indicator);
+    }
+    throw new UnauthorizedException("The user is an admin", "The user is an admin");
   }
 
 }

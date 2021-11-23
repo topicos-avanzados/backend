@@ -56,14 +56,11 @@ public class IndicatorValueService {
   }
 
   public IndicatorValueDTO addIndicatorValue(IndicatorValueRequestDTO indicator) {
-    //lanzar excepcion si no lo encuentra
     Optional<Indicator> ind = this.indicatorRepository.findById(indicator.getIndicatorId());
     Optional<Company> company = this.companyRepository.findById(indicator.getCompanyId());
-    //agregar if
     if (ind.isPresent() && company.isPresent()) {
       IndicatorValue indicatorValue = this.indicatorValueRepository.save(Mappers.buildIndicatorValue(indicator, ind.get(), company.get()));
       indicator.setId(indicatorValue.getId());
-
       return (Mappers.buildIndicatorValueDTO(indicatorValue));
     }
     return null;
@@ -85,7 +82,6 @@ public class IndicatorValueService {
       this.indicatorValueRepository.save(indicatorValueToSave);
       return Mappers.buildIndicatorValueDTO(indicatorValueToSave);
     }
-    //FIXME NULL O QUE DEVUELVA OTRA COSA?
     return null;
   }
 
