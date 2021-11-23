@@ -13,8 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class NewUserDTO {
 
-  private String username;
-
   private String mail;
 
   private Long companyId;

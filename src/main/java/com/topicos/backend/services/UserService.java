@@ -56,7 +56,7 @@ public class UserService {
   @SneakyThrows
   public UserDTO saveAndSendMail(NewUserDTO userRequestDTO, String token) {
     if (this.jwtTokenUtil.getAdminFromToken(token)) {
-      Optional<User> user = this.userRepository.findByMail(userRequestDTO.getUsername());
+      Optional<User> user = this.userRepository.findByMail(userRequestDTO.getMail());
       Optional<Company> company = this.companyRepository.findById(userRequestDTO.getCompanyId());
       if (user.isEmpty() && company.isPresent()) {
         User newUser = this.userRepository.save(User
@@ -68,15 +68,13 @@ public class UserService {
             .active(false)
             .build());
 
-        UserDetails details = this.jwtUserDetailsService.saveUserByUsername(userRequestDTO.getUsername());
+        UserDetails details = this.jwtUserDetailsService.saveUserByUsername(userRequestDTO.getMail());
 
         String newToken = this.jwtTokenUtil.generateMailToken(details, false, newUser
             .getCompanyId()
             .getId());
 
-        this.mailService.sendMailWithToken(user
-            .get()
-            .getMail(), newToken);
+        this.mailService.sendMailWithToken(newUser.getMail(), newToken);
 
         return Mappers.buildUserDTO(newUser);
       }
