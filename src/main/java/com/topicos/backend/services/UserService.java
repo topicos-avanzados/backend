@@ -92,6 +92,11 @@ public class UserService {
           .findById(companyId)
           .get();
       String newToken = this.jwtTokenUtil.generateToken(details, false, companyId);
+      User user = this.userRepository
+          .findByMail(userCredential.getMail())
+          .get();
+      user.setActive(true);
+      this.userRepository.save(user);
       return new UserLoginDTO(newToken, Mappers.buildCompanyDTO(company));
 
     }
@@ -108,17 +113,20 @@ public class UserService {
 
       Optional<User> optionalUser = this.userRepository.findByMail(user.getMail());
 
-      String token = this.jwtTokenUtil.generateToken(details, optionalUser
+      if (optionalUser.isPresent() && optionalUser
           .get()
-          .getAdmin(), optionalUser
-          .get()
-          .getCompanyId()
-          .getId());
+          .getActive()) {
+        String token = this.jwtTokenUtil.generateToken(details, optionalUser
+            .get()
+            .getAdmin(), optionalUser
+            .get()
+            .getCompanyId()
+            .getId());
 
-      return new UserLoginDTO(token, Mappers.buildCompanyDTO(optionalUser
-          .get()
-          .getCompanyId()));
-
+        return new UserLoginDTO(token, Mappers.buildCompanyDTO(optionalUser
+            .get()
+            .getCompanyId()));
+      }
 
     }
     throw new ApiException("Invalid credentials", "Invalid credentials", 404);
