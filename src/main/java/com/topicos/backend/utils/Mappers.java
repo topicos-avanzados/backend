@@ -5,12 +5,10 @@ import com.topicos.backend.dto.CompanyDTO;
 import com.topicos.backend.dto.IndicatorDTO;
 import com.topicos.backend.dto.IndicatorValueDTO;
 import com.topicos.backend.dto.request.CompanyRequestDTO;
+import com.topicos.backend.dto.request.CompositeIndicatorValueRequestDTO;
 import com.topicos.backend.dto.request.IndicatorRequestDTO;
 import com.topicos.backend.dto.request.IndicatorValueRequestDTO;
-import com.topicos.backend.persistence.model.Area;
-import com.topicos.backend.persistence.model.Company;
-import com.topicos.backend.persistence.model.Indicator;
-import com.topicos.backend.persistence.model.IndicatorValue;
+import com.topicos.backend.persistence.model.*;
 
 public interface Mappers {
 
@@ -91,4 +89,7 @@ public interface Mappers {
         .build();
   }
 
+  static Object buildCompositeIndicatorValue(CompositeIndicatorValue indicator) {
+    return null;
+  }
 }
