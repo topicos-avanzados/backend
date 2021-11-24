@@ -7,29 +7,24 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@NoArgsConstructor
 @Service
 public class MailService {
 
-  private static final String MAIL = "deres.proyecto@gmail.com";
+  private static final String MAIL = "noreply.deres@gmail.com";
 
-  private static final String PASSWORD = "Hola?1234";
+  private static final String PASSWORD = "Topicos123";
 
-  private final String host;
+  private static final String HOST = "smtp.gmail.com";
 
-  public MailService(String host) {
-    this.host = host;
-  }
-
-  public MailService() {
-    this.host = "";
-  }
 
   public void sendMailWithToken(String email, String token) throws MessagingException {
 
     Properties props = new Properties();
-    props.setProperty("mail.smtp.host", this.host);
+    props.setProperty("mail.smtp.host", HOST);
     props.setProperty("mail.smtp.starttls.enable", "true");
     props.setProperty("mail.smtp.port", "587");
     props.setProperty("mail.smtp.user", MAIL);
@@ -42,8 +37,7 @@ public class MailService {
     message.setFrom(new InternetAddress(MAIL));
     message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
     message.setSubject("Link para activar su usuario");
-    message.setText("Siga el link de activación: " + token
-        + "Recuerde que éste código es de corta duración y es solo válido para la operación solicitada");
+    message.setText("Siga el link de activación: " + "https://topicos.netlify.app/iniciar-sesion?token=" + token);
 
     Transport t = session.getTransport("smtp");
     t.connect(MAIL, PASSWORD);

@@ -73,7 +73,7 @@ public class UserService {
         String newToken = this.jwtTokenUtil.generateMailToken(details, false, newUser
             .getCompanyId()
             .getId());
-
+        System.out.println(newToken);
         this.mailService.sendMailWithToken(newUser.getMail(), newToken);
 
         return Mappers.buildUserDTO(newUser);

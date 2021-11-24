@@ -40,10 +40,10 @@ public class IndicatorValueController {
   //DELETE
   @DeleteMapping("/indicator_value/delete")
   public void deleteIndicatorValue(@RequestParam Long id, @RequestHeader("Authorization") String token) {
-    if (!this.jwtTokenUtil.getAdminFromToken(token)) {
-      this.indicatorValueService.deleteIndicatorValue(id);
+    if (this.jwtTokenUtil.getAdminFromToken(token)) {
+      throw new UnauthorizedException("The user is an admin", "The user is an admin");
     }
-    throw new UnauthorizedException("The user is an admin", "The user is an admin");
+    this.indicatorValueService.deleteIndicatorValue(id);
   }
 
   //GET
