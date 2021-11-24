@@ -5,8 +5,12 @@ import com.topicos.backend.dto.request.IndicatorValueRequestDTO;
 import com.topicos.backend.exceptions.UnauthorizedException;
 import com.topicos.backend.security.JwtTokenUtil;
 import com.topicos.backend.services.IndicatorValueService;
+
+import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,9 +53,12 @@ public class IndicatorValueController {
   //GET
   @GetMapping("/indicator_value")
   public List<IndicatorValueDTO> getAllIndicatorsValues(@RequestParam(required = false) Long indicator,
-      @RequestParam(required = false) Long company, @RequestHeader("Authorization") String token) {
+      @RequestParam(required = false) Long company,
+      @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date from,
+      @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date to,
+      @RequestHeader("Authorization") String token) {
     if (!this.jwtTokenUtil.getAdminFromToken(token)) {
-      return this.indicatorValueService.getAllIndicatorsValues(indicator, company);
+      return this.indicatorValueService.getAllIndicatorsValues(indicator, company, from, to);
     }
     throw new UnauthorizedException("The user is an admin", "The user is an admin");
   }
