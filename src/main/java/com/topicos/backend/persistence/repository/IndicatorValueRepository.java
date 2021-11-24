@@ -1,7 +1,6 @@
 package com.topicos.backend.persistence.repository;
 
 import com.topicos.backend.persistence.model.IndicatorValue;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +16,8 @@ public interface IndicatorValueRepository extends JpaRepository<IndicatorValue, 
   List<IndicatorValue> findAllByIndicatorId_Id(Long indicatorId);
 
   List<IndicatorValue> findAllByIndicatorId_IdAndCompanyId_Id(Long indicatorId, Long companyId);
+
+  List<IndicatorValue> findAllByIndicatorId_IdAndCompanyId_IdOrderByDateDesc(Long indicatorId, Long companyId);
 
   List<IndicatorValue> findAllByCompanyId_Id(Long companyId);
 
