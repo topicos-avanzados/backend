@@ -1,5 +1,6 @@
 package com.topicos.backend.services;
 
+import com.topicos.backend.dto.LogDTO;
 import com.topicos.backend.dto.UserDTO;
 import com.topicos.backend.dto.request.NewUserDTO;
 import com.topicos.backend.dto.request.UserCredentialDTO;
@@ -39,11 +40,14 @@ public class UserService {
 
   private final JwtUserDetailsService jwtUserDetailsService;
 
+  private final LogService logService;
+
   private final AuthenticationManager authenticationManager;
 
   private final PasswordEncoder bcryptEncoder;
 
   private final MailService mailService;
+
 
   public List<UserDTO> getAllUsers() {
     return this.userRepository
@@ -69,6 +73,9 @@ public class UserService {
             .build());
 
         UserDetails details = this.jwtUserDetailsService.saveUserByUsername(userRequestDTO.getMail());
+
+        LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),"Se registro un nuevo usuario: " + userRequestDTO.getMail());
+        logService.addLog(newLog);
 
         String newToken = this.jwtTokenUtil.generateMailToken(details, false, newUser
             .getCompanyId()
@@ -97,6 +104,10 @@ public class UserService {
           .get();
       user.setActive(true);
       this.userRepository.save(user);
+
+      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),"Se activo el usuario: " + user.getMail());
+      logService.addLog(newLog);
+
       return new UserLoginDTO(newToken, Mappers.buildCompanyDTO(company));
 
     }
@@ -122,6 +133,9 @@ public class UserService {
             .get()
             .getCompanyId()
             .getId());
+
+        LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),"Se ingreso con el usuario: " + optionalUser.get().getMail());
+        logService.addLog(newLog);
 
         return new UserLoginDTO(token, Mappers.buildCompanyDTO(optionalUser
             .get()
@@ -157,6 +171,10 @@ public class UserService {
 
       UserDetails details = this.jwtUserDetailsService.loadUserByUsername(userRequestDTO.getMail());
       String token = this.jwtTokenUtil.generateToken(details, true, company.getId());
+
+      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),"Se registro un nuevo admin: " + userRequestDTO.getMail());
+      logService.addLog(newLog);
+
       return new UserLoginDTO(token, Mappers.buildCompanyDTO(company));
     }
     throw new ApiException("ERROR", "user ya registrado", HttpStatus.BAD_REQUEST.value());

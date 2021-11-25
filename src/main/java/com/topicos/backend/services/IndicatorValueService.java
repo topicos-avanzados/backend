@@ -77,19 +77,24 @@ public class IndicatorValueService {
     if (ind.isPresent() && company.isPresent()) {
       IndicatorValue indicatorValue = this.indicatorValueRepository.save(Mappers.buildIndicatorValue(indicator, ind.get(), company.get()));
       indicator.setId(indicatorValue.getId());
-      LogDTO log = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),"Added new indicator value: " + indicator.toString());
-      logService.addLog(log);
+      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),"Se agrego un nuevo valor de indicador para la empresa: " + indicator.getCompanyId());
+      logService.addLog(newLog);
     return (Mappers.buildIndicatorValueDTO(indicatorValue));
     }
     return null;
   }
 
-  public void deleteIndicatorValue(Long indicatorValueId) {
+  public void deleteIndicatorValue(Long indicatorValueId, String token) {
     Optional<IndicatorValue> indicatorValue = this.indicatorValueRepository.findById(indicatorValueId);
-    indicatorValue.ifPresent(this.indicatorValueRepository::delete);
+    if(indicatorValue.isPresent()){
+      this.indicatorValueRepository.delete(indicatorValue.get());
+      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),"Se elimino un valor de indicador para la empresa: " + indicatorValue.get().getCompanyId());
+      logService.addLog(newLog);
+    }
+
   }
 
-  public IndicatorValueDTO modifyIndicatorValue(IndicatorValueRequestDTO indicator) {
+  public IndicatorValueDTO modifyIndicatorValue(IndicatorValueRequestDTO indicator, String token) {
     Optional<IndicatorValue> optionalIndicatorValue = this.indicatorValueRepository.findById(indicator.getId());
 
     if (optionalIndicatorValue.isPresent()) {
@@ -97,6 +102,8 @@ public class IndicatorValueService {
       indicatorValueToSave.setValue(indicator.getValue());
       indicatorValueToSave.setDate(indicator.getDate());
       this.indicatorValueRepository.save(indicatorValueToSave);
+      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),"Se modifico un valor de indicador para la empresa: " + indicatorValueToSave.getCompanyId());
+      logService.addLog(newLog);
       return Mappers.buildIndicatorValueDTO(indicatorValueToSave);
     }
     return null;
