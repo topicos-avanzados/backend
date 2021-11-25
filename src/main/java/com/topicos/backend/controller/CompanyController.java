@@ -31,7 +31,7 @@ public class CompanyController {
   @PostMapping("/company/create")
   public CompanyDTO addCompany(@RequestBody CompanyRequestDTO company, @RequestHeader("Authorization") String token) {
     if (this.jwtTokenUtil.getAdminFromToken(token)) {
-      return this.companyService.addCompany(company);
+      return this.companyService.addCompany(company, token);
     }
     throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
   }
@@ -40,7 +40,7 @@ public class CompanyController {
   @DeleteMapping("/company/delete")
   public void deleteCompany(@RequestParam Long id, @RequestHeader("Authorization") String token) {
     if (this.jwtTokenUtil.getAdminFromToken(token)) {
-      this.companyService.deleteCompany(id);
+      this.companyService.deleteCompany(id, token);
     }
     throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
   }
@@ -54,7 +54,7 @@ public class CompanyController {
   //MODIFICATION
   @PutMapping("/company/modify")
   public CompanyDTO modifyCompany(@RequestBody CompanyDTO company, @RequestHeader("Authorization") String token) {
-    return this.companyService.modifyCompany(company);
+    return this.companyService.modifyCompany(company, token);
   }
 
 }

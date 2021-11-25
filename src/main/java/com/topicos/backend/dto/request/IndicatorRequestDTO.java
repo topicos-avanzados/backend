@@ -27,4 +27,12 @@ public class IndicatorRequestDTO {
 
   private String description;
 
+  private Long indicatorLeft;
+
+  private Long indicatorRight;
+
+  private String operator;
+
+  private Double constant;
+
 }

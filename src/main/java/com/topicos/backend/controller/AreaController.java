@@ -31,7 +31,7 @@ public class AreaController {
   @PostMapping("/area/create")
   public AreaDTO addArea(@RequestBody AreaRequestDTO areaDTO, @RequestHeader("Authorization") String token) {
     if (this.jwtTokenUtil.getAdminFromToken(token)) {
-      return this.areaService.addArea(areaDTO);
+      return this.areaService.addArea(areaDTO, token);
     }
     throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
   }
@@ -40,7 +40,7 @@ public class AreaController {
   @DeleteMapping("/area/delete")
   public void deleteArea(@RequestParam Long id, @RequestHeader("Authorization") String token) {
     if (this.jwtTokenUtil.getAdminFromToken(token)) {
-      this.areaService.deleteArea(id);
+      this.areaService.deleteArea(id, token);
     }
     throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
   }
@@ -55,7 +55,7 @@ public class AreaController {
   @PutMapping("/area/modify")
   public AreaDTO modifyArea(@RequestBody AreaDTO areaDTO, @RequestHeader("Authorization") String token) {
     if (this.jwtTokenUtil.getAdminFromToken(token)) {
-      return this.areaService.modifyArea(areaDTO);
+      return this.areaService.modifyArea(areaDTO, token);
     }
     throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
   }
