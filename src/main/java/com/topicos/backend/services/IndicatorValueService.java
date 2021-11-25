@@ -82,13 +82,12 @@ public class IndicatorValueService {
   }
 
   public IndicatorValueDTO modifyIndicatorValue(IndicatorValueRequestDTO indicator) {
-    Optional<IndicatorValue> optionalIndicatorValue = this.indicatorValueRepository.findById(indicator.getIndicatorId());
+    Optional<IndicatorValue> optionalIndicatorValue = this.indicatorValueRepository.findById(indicator.getId());
 
-    Optional<Company> optionalCompany = this.companyRepository.findById(indicator.getCompanyId());
-    if (optionalIndicatorValue.isPresent() && optionalCompany.isPresent()) {
+    if (optionalIndicatorValue.isPresent()) {
       IndicatorValue indicatorValueToSave = optionalIndicatorValue.get();
       indicatorValueToSave.setValue(indicator.getValue());
-      indicatorValueToSave.setCompanyId(optionalCompany.get());
+      indicatorValueToSave.setDate(indicator.getDate());
       this.indicatorValueRepository.save(indicatorValueToSave);
       return Mappers.buildIndicatorValueDTO(indicatorValueToSave);
     }
