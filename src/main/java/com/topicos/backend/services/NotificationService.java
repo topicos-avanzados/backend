@@ -49,6 +49,7 @@ public class NotificationService {
         .builder()
         .indicator(Mappers.buildIndicatorDTO(indicator))
         .daysFromLast(daysFromLast)
+        .id(indicator.getId())
         .build();
     if (frequency != null) {
       SimpleDateFormat getYearFormat = new SimpleDateFormat("yyyy");

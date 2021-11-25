@@ -54,6 +54,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         .getPassword(), new ArrayList<>());
   }
 
+  //TODO: eliminar si no se usa
   public boolean autorizado(String username, Map<String, String> params) throws Exception {
     Optional<User> user = userRepository.findByMail(username);
 
@@ -67,6 +68,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     return true;
   }
 
+  //TODO: eliminar si no se usa
   @Transactional
   public void save(UserDTO userRequestDTO) {
     User user = userRepository

@@ -31,7 +31,7 @@ public class IndicatorController {
   @PostMapping("/indicator/create")
   public IndicatorDTO addIndicator(@RequestBody IndicatorRequestDTO indicator, @RequestHeader("Authorization") String token) {
     if (this.jwtTokenUtil.getAdminFromToken(token)) {
-      return this.indicatorService.createIndicator(indicator);
+      return this.indicatorService.createIndicator(indicator, token);
     }
     throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
 
@@ -41,7 +41,7 @@ public class IndicatorController {
   @DeleteMapping("/indicator/delete")
   public void deleteIndicator(@RequestParam Long id, @RequestHeader("Authorization") String token) {
     if (this.jwtTokenUtil.getAdminFromToken(token)) {
-      this.indicatorService.deleteIndicator(id);
+      this.indicatorService.deleteIndicator(id, token);
     }
     throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
 
@@ -57,7 +57,7 @@ public class IndicatorController {
   @PutMapping("/indicator/modify")
   public IndicatorDTO modifyIndicator(@RequestBody IndicatorRequestDTO indicator, @RequestHeader("Authorization") String token) {
     if (this.jwtTokenUtil.getAdminFromToken(token)) {
-      return this.indicatorService.modifyIndicator(indicator);
+      return this.indicatorService.modifyIndicator(indicator, token);
     }
     throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
   }

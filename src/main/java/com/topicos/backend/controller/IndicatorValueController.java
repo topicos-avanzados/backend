@@ -36,7 +36,7 @@ public class IndicatorValueController {
   public IndicatorValueDTO addIndicatorValue(@RequestBody IndicatorValueRequestDTO indicator,
       @RequestHeader("Authorization") String token) {
     if (!this.jwtTokenUtil.getAdminFromToken(token)) {
-      return this.indicatorValueService.addIndicatorValue(indicator);
+      return this.indicatorValueService.addIndicatorValue(indicator, token);
     }
     throw new UnauthorizedException("The user is an admin", "The user is an admin");
   }
@@ -47,7 +47,7 @@ public class IndicatorValueController {
     if (this.jwtTokenUtil.getAdminFromToken(token)) {
       throw new UnauthorizedException("The user is an admin", "The user is an admin");
     }
-    this.indicatorValueService.deleteIndicatorValue(id);
+    this.indicatorValueService.deleteIndicatorValue(id, token);
   }
 
   //GET
@@ -57,10 +57,6 @@ public class IndicatorValueController {
       @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date from,
       @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date to,
       @RequestHeader("Authorization") String token) {
-    System.out.println(company);
-    System.out.println(from);
-    System.out.println(to);
-    System.out.println(indicator);
     if (!this.jwtTokenUtil.getAdminFromToken(token)) {
       return this.indicatorValueService.getAllIndicatorsValues(indicator, company, from, to);
     }
@@ -72,7 +68,7 @@ public class IndicatorValueController {
   public IndicatorValueDTO modifyIndicatorValue(@RequestBody IndicatorValueRequestDTO indicator,
       @RequestHeader("Authorization") String token) {
     if (!this.jwtTokenUtil.getAdminFromToken(token)) {
-      return this.indicatorValueService.modifyIndicatorValue(indicator);
+      return this.indicatorValueService.modifyIndicatorValue(indicator, token);
     }
     throw new UnauthorizedException("The user is an admin", "The user is an admin");
   }
