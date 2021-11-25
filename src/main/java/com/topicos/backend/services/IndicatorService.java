@@ -12,6 +12,7 @@ import com.topicos.backend.persistence.repository.IndicatorRepository;
 import com.topicos.backend.security.JwtTokenUtil;
 import com.topicos.backend.utils.Mappers;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -42,31 +43,52 @@ public class IndicatorService {
 
   public IndicatorDTO createIndicator(IndicatorRequestDTO indicator, String token) {
     Optional<Area> optionalArea = this.areaRepository.findById(indicator.getAreaId());
-    if("D".equals(indicator.getType())) {
+    if ("D".equals(indicator.getType())) {
       Indicator ind = this.indicatorRepository.save(Mappers.buildIndicator(indicator, optionalArea.get()));
       indicator.setId(ind.getId());
       LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se registro una nuevo indicador: " + indicator.getName());
       logService.addLog(newLog);
       return buildIndicatorDTO(ind);
     }
+    if (Objects.isNull(indicator.getIndicatorLeft())) {
+      Optional<Indicator> indRight = this.indicatorRepository.findById(indicator.getIndicatorRight());
+      if (indRight.isPresent()) {
+        return this.save(indicator, token, optionalArea.get());
+      }
+      return null;
+    }
+    if (Objects.isNull(indicator.getIndicatorRight())) {
+      Optional<Indicator> indLeft = this.indicatorRepository.findById(indicator.getIndicatorLeft());
+      if (indLeft.isPresent()) {
+        return this.save(indicator, token, optionalArea.get());
+      }
+      return null;
+    }
     Optional<Indicator> indLeft = this.indicatorRepository.findById(indicator.getIndicatorLeft());
     Optional<Indicator> indRight = this.indicatorRepository.findById(indicator.getIndicatorRight());
-    if(indLeft.isPresent() && indRight.isPresent()){
-      Indicator ind = this.indicatorRepository.save(Mappers.buildIndicator(indicator, optionalArea.get()));
-      indicator.setId(ind.getId());
-      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se registro una nuevo indicador complejo: " + indicator.getName());
-      logService.addLog(newLog);
-      return buildIndicatorDTO(ind);
+    if (indLeft.isPresent() && indRight.isPresent()) {
+      return this.save(indicator, token, optionalArea.get());
     }
     return null;
+  }
+
+  private IndicatorDTO save(IndicatorRequestDTO indicator, String token, Area area) {
+    Indicator ind = this.indicatorRepository.save(Mappers.buildIndicator(indicator, area));
+    indicator.setId(ind.getId());
+    LogDTO newLog =
+        new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se registro una nuevo indicador complejo: " + indicator.getName());
+    logService.addLog(newLog);
+    return buildIndicatorDTO(ind);
   }
 
   @Transactional
   public void deleteIndicator(Long indicatorId, String token) {
     Optional<Indicator> indicator = this.indicatorRepository.findById(indicatorId);
-    if(indicator.isPresent()){
+    if (indicator.isPresent()) {
       this.indicatorRepository.delete(indicator.get());
-      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),"Se elimino el indicador: " + indicator.get().getName());
+      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se elimino el indicador: " + indicator
+          .get()
+          .getName());
       logService.addLog(newLog);
     }
   }

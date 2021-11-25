@@ -32,7 +32,8 @@ public class ComplexIndicatorValue {
 
   public IndicatorValueDTO addIndicatorValueComplex(IndicatorValueRequestDTO indicator, Indicator ind, Company company, String token) {
 
-    Optional<Indicator> indLeft = this.indicatorRepository.findById(ind.getIndicatorLeft());
+    Optional<Indicator> indLeft =
+        Objects.isNull(ind.getIndicatorLeft()) ? Optional.empty() : this.indicatorRepository.findById(ind.getIndicatorLeft());
 
     if (indLeft.isPresent()) {
       Optional<IndicatorValue> indicatorValueLeft = this.getIndicatorValue(indLeft.get(), indicator);
@@ -49,7 +50,16 @@ public class ComplexIndicatorValue {
         throw new ApiException("No existe alguno de los indicadores", "No existe alguno de los indicadores", 500);
       }
       if (indicatorValueLeft.isPresent()) {
-        return this.saveCons(indicatorValueLeft.get(), indicator, ind, company, token);
+        return this.saveCons(indicatorValueLeft.get(), null, indicator, ind, company, token);
+      }
+      throw new ApiException("No hay valores para ese mes", "No hay valores para ese mes", 400);
+    }
+    Optional<Indicator> indRight =
+        Objects.isNull(ind.getIndicatorRight()) ? Optional.empty() : this.indicatorRepository.findById(ind.getIndicatorRight());
+    if (indRight.isPresent()) {
+      Optional<IndicatorValue> indicatorValueRight = this.getIndicatorValue(indRight.get(), indicator);
+      if (indicatorValueRight.isPresent()) {
+        return this.saveCons(null, indicatorValueRight.get(), indicator, ind, company, token);
       }
       throw new ApiException("No hay valores para ese mes", "No hay valores para ese mes", 400);
     }
@@ -100,11 +110,14 @@ public class ComplexIndicatorValue {
     throw new ApiException("El operador ingresado es invalido", "El operador ingresado es invalido", 400);
   }
 
-  private IndicatorValueDTO saveCons(IndicatorValue indicatorValueLeft, IndicatorValueRequestDTO indicator, Indicator ind, Company company,
-      String token) {
+  private IndicatorValueDTO saveCons(IndicatorValue indicatorValueLeft, IndicatorValue indicatorValueRight,
+      IndicatorValueRequestDTO indicator, Indicator ind, Company company, String token) {
+
+    Double value =
+        Objects.isNull(indicatorValueRight) ? getValueConst(indicatorValueLeft, ind) : getValueConstRight(indicatorValueRight, ind);
     IndicatorValue toSave = IndicatorValue
         .builder()
-        .value(getValueConst(indicatorValueLeft, ind))
+        .value(value)
         .companyId(company)
         .date(indicator.getDate())
         .indicatorId(ind)
@@ -128,6 +141,21 @@ public class ComplexIndicatorValue {
       return left.getValue() - cons;
     } else if ("/".equals(operator)) {
       return left.getValue() / cons;
+    }
+    throw new ApiException("El operador ingresado es invalido", "El operador ingresado es invalido", 400);
+  }
+
+  private Double getValueConstRight(IndicatorValue right, Indicator indicator) {
+    String operator = indicator.getOperator();
+    Double cons = indicator.getConstant();
+    if ("+".equals(operator)) {
+      return right.getValue() + cons;
+    } else if ("*".equals(operator)) {
+      return right.getValue() * cons;
+    } else if ("-".equals(operator)) {
+      return cons - right.getValue();
+    } else if ("/".equals(operator)) {
+      return cons / right.getValue();
     }
     throw new ApiException("El operador ingresado es invalido", "El operador ingresado es invalido", 400);
   }
