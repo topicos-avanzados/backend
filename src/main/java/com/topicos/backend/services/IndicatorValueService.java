@@ -47,10 +47,10 @@ public class IndicatorValueService {
             .collect(Collectors.toList());
       } else {
         return this.indicatorValueRepository
-          .findAllByIndicatorId_IdAndCompanyId_Id(indicatorId, companyId)
-          .stream()
-          .map(Mappers::buildIndicatorValueDTO)
-          .collect(Collectors.toList());
+            .findAllByIndicatorId_IdAndCompanyId_Id(indicatorId, companyId)
+            .stream()
+            .map(Mappers::buildIndicatorValueDTO)
+            .collect(Collectors.toList());
       }
     } else if (!Objects.isNull(indicatorId)) {
       return this.indicatorValueRepository
@@ -97,11 +97,12 @@ public class IndicatorValueService {
   public void deleteIndicatorValue(Long indicatorValueId, String token) {
     Optional<IndicatorValue> indicatorValue = this.indicatorValueRepository.findById(indicatorValueId);
     if (indicatorValue.isPresent()) {
+      String company = indicatorValue
+          .get()
+          .getCompanyId()
+          .getName();
       this.indicatorValueRepository.delete(indicatorValue.get());
-      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),
-          "Se elimino un valor de indicador para la empresa: " + indicatorValue
-              .get()
-              .getCompanyId());
+      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se elimino un valor de indicador para la empresa: " + company);
       logService.addLog(newLog);
     }
 

@@ -110,20 +110,20 @@ public interface Mappers {
 
   static Log buildLog(LogDTO log) {
     return Log
-            .builder()
-            .id(log.getId())
-            .email(log.getEmail())
-            .date(log.getDate())
-            .payload(log.getPayload())
-            .build();
+        .builder()
+        .id(log.getId())
+        .email(log.getEmail())
+        .date(log.getDate())
+        .payload(log.getPayload())
+        .build();
   }
   static LogDTO buildLogDTO(Log log) {
     return LogDTO
-            .builder()
-            .id(log.getId())
-            .email(log.getEmail())
-            .date(log.getDate())
-            .payload(log.getPayload())
-            .build();
+        .builder()
+        .id(log.getId())
+        .email(log.getEmail())
+        .date(log.getDate())
+        .payload(log.getPayload())
+        .build();
   }
 }

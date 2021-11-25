@@ -85,10 +85,11 @@ public class IndicatorService {
   public void deleteIndicator(Long indicatorId, String token) {
     Optional<Indicator> indicator = this.indicatorRepository.findById(indicatorId);
     if (indicator.isPresent()) {
-      this.indicatorRepository.delete(indicator.get());
-      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se elimino el indicador: " + indicator
+      String name = indicator
           .get()
-          .getName());
+          .getName();
+      this.indicatorRepository.delete(indicator.get());
+      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se elimino el indicador: " + name);
       logService.addLog(newLog);
     }
   }

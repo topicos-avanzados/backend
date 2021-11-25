@@ -80,7 +80,6 @@ public class UserService {
         String newToken = this.jwtTokenUtil.generateMailToken(details, false, newUser
             .getCompanyId()
             .getId());
-        System.out.println(newToken);
         this.mailService.sendMailWithToken(newUser.getMail(), newToken);
 
         return Mappers.buildUserDTO(newUser);
@@ -172,7 +171,7 @@ public class UserService {
       UserDetails details = this.jwtUserDetailsService.loadUserByUsername(userRequestDTO.getMail());
       String token = this.jwtTokenUtil.generateToken(details, true, company.getId());
 
-      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),"Se registro un nuevo admin: " + userRequestDTO.getMail());
+      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se registro un nuevo admin: " + userRequestDTO.getMail());
       logService.addLog(newLog);
 
       return new UserLoginDTO(token, Mappers.buildCompanyDTO(company));
@@ -180,5 +179,17 @@ public class UserService {
     throw new ApiException("ERROR", "user ya registrado", HttpStatus.BAD_REQUEST.value());
   }
 
+
+  public void deleteUser(Long id, String token) {
+    Optional<User> user = this.userRepository.findById(id);
+    if (user.isPresent()) {
+      String name = user
+          .get()
+          .getMail();
+      this.userRepository.delete(user.get());
+      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se elimino el user: " + name);
+      logService.addLog(newLog);
+    }
+  }
 
 }
