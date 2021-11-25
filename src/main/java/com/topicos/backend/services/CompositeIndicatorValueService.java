@@ -1,5 +1,6 @@
 package com.topicos.backend.services;
 
+import com.topicos.backend.dto.CompositeIndicatorValueDTO;
 import com.topicos.backend.dto.IndicatorValueDTO;
 import com.topicos.backend.dto.request.CompositeIndicatorTypeDTO;
 import com.topicos.backend.dto.request.CompositeIndicatorValueRequestDTO;
@@ -32,13 +33,13 @@ public class CompositeIndicatorValueService {
 
 
     public IndicatorValueDTO addIndicatorValue(CompositeIndicatorValueRequestDTO indicator) {
-//        Optional<Indicator> ind = this.indicatorRepository.findById(indicator.getIndicatorId());
-//        Optional<Company> company = this.companyRepository.findById(indicator.getCompanyId());
+        Optional<Indicator> ind = this.indicatorRepository.findById(indicator.getIndicatorId());
+        Optional<Company> company = this.companyRepository.findById(indicator.getCompanyId());
         if (ind.isPresent() && company.isPresent()) {
 
-//            CompositeIndicatorValue indicatorValue = this.compositeIndicatorRepository.save();
-//            indicator.setId(indicatorValue.getId());
-//            return (Mappers.buildCompositeIndicatorValue(indicatorValue));
+            CompositeIndicatorValueDTO indicatorValue = this.compositeIndicatorRepository.save();
+            indicatorValue.setId(indicatorValue.getId());
+            return (Mappers.buildCompositeIndicatorValue(indicatorValue));
         }
         return null;
     }

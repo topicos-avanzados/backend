@@ -15,7 +15,7 @@ public class CompositeIndicatorValueController {
     private final CompositeIndicatorValueService compositeIndicatorValueService;
 
     //CREATE
-    @PostMapping("/indicator_value/create")
+    @PostMapping("/composite_indicator_value/create")
     public IndicatorValueDTO addIndicatorValue(@RequestBody CompositeIndicatorValueRequestDTO indicator) {
         return this.compositeIndicatorValueService.addIndicatorValue(indicator);
     }

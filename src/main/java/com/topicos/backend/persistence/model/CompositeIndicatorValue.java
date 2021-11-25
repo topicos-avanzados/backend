@@ -1,12 +1,10 @@
 package com.topicos.backend.persistence.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.sun.istack.Nullable;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 @Builder
 @Entity
@@ -15,5 +13,25 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Table(name = "compositeindicatorvalue")
 public class CompositeIndicatorValue {
-    
+
+    @Id
+    @Nullable
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Double value;
+
+    private Date date;
+
+    @ManyToOne
+    @JoinColumn(name = "indicator_id")
+    @ToString.Exclude
+    private Indicator indicatorId;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    @ToString.Exclude
+    private Company companyId;
+
+
 }
