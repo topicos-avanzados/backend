@@ -83,7 +83,9 @@ public class IndicatorValueService {
             this.indicatorValueRepository.save(Mappers.buildIndicatorValue(indicator, ind.get(), company.get()));
         indicator.setId(indicatorValue.getId());
         LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),
-            "Se agrego un nuevo valor de indicador para la empresa: " + indicator.getCompanyId());
+            "Se agrego un nuevo valor de indicador para la empresa: " + company
+                .get()
+                .getName());
         logService.addLog(newLog);
         return (Mappers.buildIndicatorValueDTO(indicatorValue));
       }
