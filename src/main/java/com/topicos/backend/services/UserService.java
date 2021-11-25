@@ -2,6 +2,7 @@ package com.topicos.backend.services;
 
 import com.topicos.backend.dto.LogDTO;
 import com.topicos.backend.dto.UserDTO;
+import com.topicos.backend.dto.request.ChangePasswordDTO;
 import com.topicos.backend.dto.request.NewUserDTO;
 import com.topicos.backend.dto.request.UserCredentialDTO;
 import com.topicos.backend.dto.response.UserLoginDTO;
@@ -190,6 +191,19 @@ public class UserService {
       LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se elimino el user: " + name);
       logService.addLog(newLog);
     }
+  }
+
+  public void changePassword(ChangePasswordDTO changePassword, String token) {
+    String username = this.jwtTokenUtil.getUsernameFromToken(token);
+
+    Optional<User> user = this.userRepository.findByMail(username);
+    String oldPassword = bcryptEncoder.encode(changePassword.getOldPassword());
+
+    if(user.isPresent() && user.get().getPassword().equals(oldPassword)){
+      user.get().setPassword(bcryptEncoder.encode(changePassword.getNewPassword()));
+      this.userRepository.save(user.get());
+    }
+    throw new ApiException("Credenciales invalidas", "Credenciales invalidas", 400);
   }
 
 }
