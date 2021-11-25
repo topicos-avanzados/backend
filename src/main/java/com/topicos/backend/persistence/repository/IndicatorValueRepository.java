@@ -21,7 +21,7 @@ public interface IndicatorValueRepository extends JpaRepository<IndicatorValue, 
 
   List<IndicatorValue> findAllByCompanyId_Id(Long companyId);
 
-  @Query(value = "from IndicatorValue where indicatorId = ?1 and companyId = ?2 and date > ?3 and date < ?4 order by date desc")
+  @Query(value = "from IndicatorValue where indicator_id = ?1 and company_id = ?2 and date > ?3 and date < ?4 order by date desc")
   List<IndicatorValue> findAllByIndicatorIdCompanyIdAndDateRanges(Long indicatorId, Long companyId, Date from, Date to);
 
 }
