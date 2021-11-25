@@ -12,6 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotificationDTO {
+  private Long id;
 
   private Long remainingDays;
 

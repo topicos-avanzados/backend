@@ -42,11 +42,23 @@ public class IndicatorService {
 
   public IndicatorDTO createIndicator(IndicatorRequestDTO indicator, String token) {
     Optional<Area> optionalArea = this.areaRepository.findById(indicator.getAreaId());
-    Indicator ind = this.indicatorRepository.save(Mappers.buildIndicator(indicator, optionalArea.get()));
-    indicator.setId(ind.getId());
-    LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),"Se registro una nuevo indicador: " + indicator.getName());
-    logService.addLog(newLog);
-    return buildIndicatorDTO(ind);
+    if("D".equals(indicator.getType())) {
+      Indicator ind = this.indicatorRepository.save(Mappers.buildIndicator(indicator, optionalArea.get()));
+      indicator.setId(ind.getId());
+      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se registro una nuevo indicador: " + indicator.getName());
+      logService.addLog(newLog);
+      return buildIndicatorDTO(ind);
+    }
+    Optional<Indicator> indLeft = this.indicatorRepository.findById(indicator.getIndicatorLeft());
+    Optional<Indicator> indRight = this.indicatorRepository.findById(indicator.getIndicatorRight());
+    if(indLeft.isPresent() && indRight.isPresent()){
+      Indicator ind = this.indicatorRepository.save(Mappers.buildIndicator(indicator, optionalArea.get()));
+      indicator.setId(ind.getId());
+      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se registro una nuevo indicador complejo: " + indicator.getName());
+      logService.addLog(newLog);
+      return buildIndicatorDTO(ind);
+    }
+    return null;
   }
 
   @Transactional

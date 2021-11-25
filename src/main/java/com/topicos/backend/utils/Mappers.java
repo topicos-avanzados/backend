@@ -4,12 +4,17 @@ import com.topicos.backend.dto.AreaDTO;
 import com.topicos.backend.dto.CompanyDTO;
 import com.topicos.backend.dto.IndicatorDTO;
 import com.topicos.backend.dto.IndicatorValueDTO;
+import com.topicos.backend.dto.LogDTO;
 import com.topicos.backend.dto.UserDTO;
 import com.topicos.backend.dto.request.CompanyRequestDTO;
 import com.topicos.backend.dto.request.IndicatorRequestDTO;
 import com.topicos.backend.dto.request.IndicatorValueRequestDTO;
-import com.topicos.backend.dto.LogDTO;
-import com.topicos.backend.persistence.model.*;
+import com.topicos.backend.persistence.model.Area;
+import com.topicos.backend.persistence.model.Company;
+import com.topicos.backend.persistence.model.Indicator;
+import com.topicos.backend.persistence.model.IndicatorValue;
+import com.topicos.backend.persistence.model.Log;
+import com.topicos.backend.persistence.model.User;
 
 public interface Mappers {
 
@@ -43,6 +48,10 @@ public interface Mappers {
         .unit(indicator.getUnit())
         .areaId(area)
         .description(indicator.getDescription())
+        .indicatorLeft(indicator.getIndicatorLeft())
+        .indicatorRight(indicator.getIndicatorRight())
+        .operator(indicator.getOperator())
+        .constant(indicator.getConstant())
         .build();
   }
 

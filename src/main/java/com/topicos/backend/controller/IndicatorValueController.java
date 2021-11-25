@@ -57,10 +57,6 @@ public class IndicatorValueController {
       @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date from,
       @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date to,
       @RequestHeader("Authorization") String token) {
-    System.out.println(company);
-    System.out.println(from);
-    System.out.println(to);
-    System.out.println(indicator);
     if (!this.jwtTokenUtil.getAdminFromToken(token)) {
       return this.indicatorValueService.getAllIndicatorsValues(indicator, company, from, to);
     }

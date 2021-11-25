@@ -42,4 +42,16 @@ public class Indicator {
   @ToString.Exclude
   private Area areaId;
 
+  @Nullable
+  private Long indicatorLeft;
+
+  @Nullable
+  private Long indicatorRight;
+
+  @Nullable
+  private String operator;
+
+  @Nullable
+  private Double constant;
+
 }
