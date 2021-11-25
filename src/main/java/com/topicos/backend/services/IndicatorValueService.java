@@ -66,14 +66,11 @@ public class IndicatorValueService {
   }
 
   public IndicatorValueDTO addIndicatorValue(IndicatorValueRequestDTO indicator) {
-    //lanzar excepcion si no lo encuentra
     Optional<Indicator> ind = this.indicatorRepository.findById(indicator.getIndicatorId());
     Optional<Company> company = this.companyRepository.findById(indicator.getCompanyId());
-    //agregar if
     if (ind.isPresent() && company.isPresent()) {
       IndicatorValue indicatorValue = this.indicatorValueRepository.save(Mappers.buildIndicatorValue(indicator, ind.get(), company.get()));
       indicator.setId(indicatorValue.getId());
-
       return (Mappers.buildIndicatorValueDTO(indicatorValue));
     }
     return null;
@@ -85,17 +82,15 @@ public class IndicatorValueService {
   }
 
   public IndicatorValueDTO modifyIndicatorValue(IndicatorValueRequestDTO indicator) {
-    Optional<IndicatorValue> optionalIndicatorValue = this.indicatorValueRepository.findById(indicator.getIndicatorId());
+    Optional<IndicatorValue> optionalIndicatorValue = this.indicatorValueRepository.findById(indicator.getId());
 
-    Optional<Company> optionalCompany = this.companyRepository.findById(indicator.getCompanyId());
-    if (optionalIndicatorValue.isPresent() && optionalCompany.isPresent()) {
+    if (optionalIndicatorValue.isPresent()) {
       IndicatorValue indicatorValueToSave = optionalIndicatorValue.get();
       indicatorValueToSave.setValue(indicator.getValue());
-      indicatorValueToSave.setCompanyId(optionalCompany.get());
+      indicatorValueToSave.setDate(indicator.getDate());
       this.indicatorValueRepository.save(indicatorValueToSave);
       return Mappers.buildIndicatorValueDTO(indicatorValueToSave);
     }
-    //FIXME NULL O QUE DEVUELVA OTRA COSA?
     return null;
   }
 

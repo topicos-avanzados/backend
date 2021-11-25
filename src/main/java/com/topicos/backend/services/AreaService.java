@@ -19,7 +19,7 @@ public class AreaService {
 
   private final AreaRepository areaRepository;
 
-  public List<AreaDTO> getAllAreas(Long companyId) {
+  public List<AreaDTO> getAllAreas() {
     return this.areaRepository
         .findAll()
         .stream()
@@ -55,7 +55,6 @@ public class AreaService {
       this.areaRepository.save(area);
       return Mappers.buildAreaDTO(area);
     }
-    //FIXME NULL O QUE DEVUELVA OTRA COSA?
     return null;
   }
 
