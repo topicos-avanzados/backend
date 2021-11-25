@@ -36,7 +36,7 @@ public class IndicatorValueController {
   public IndicatorValueDTO addIndicatorValue(@RequestBody IndicatorValueRequestDTO indicator,
       @RequestHeader("Authorization") String token) {
     if (!this.jwtTokenUtil.getAdminFromToken(token)) {
-      return this.indicatorValueService.addIndicatorValue(indicator);
+      return this.indicatorValueService.addIndicatorValue(indicator, token);
     }
     throw new UnauthorizedException("The user is an admin", "The user is an admin");
   }

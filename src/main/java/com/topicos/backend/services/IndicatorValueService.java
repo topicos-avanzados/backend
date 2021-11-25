@@ -1,6 +1,7 @@
 package com.topicos.backend.services;
 
 import com.topicos.backend.dto.IndicatorValueDTO;
+import com.topicos.backend.dto.LogDTO;
 import com.topicos.backend.dto.request.IndicatorValueRequestDTO;
 import com.topicos.backend.persistence.model.Company;
 import com.topicos.backend.persistence.model.Indicator;
@@ -8,6 +9,7 @@ import com.topicos.backend.persistence.model.IndicatorValue;
 import com.topicos.backend.persistence.repository.CompanyRepository;
 import com.topicos.backend.persistence.repository.IndicatorRepository;
 import com.topicos.backend.persistence.repository.IndicatorValueRepository;
+import com.topicos.backend.security.JwtTokenUtil;
 import com.topicos.backend.utils.Mappers;
 
 import java.util.Date;
@@ -29,6 +31,10 @@ public class IndicatorValueService {
   private final IndicatorValueRepository indicatorValueRepository;
 
   private final CompanyRepository companyRepository;
+
+  private final JwtTokenUtil jwtTokenUtil;
+
+  private final LogService logService;
 
   public List<IndicatorValueDTO> getAllIndicatorsValues(Long indicatorId, Long companyId, Date from, Date to) {
     if (!Objects.isNull(indicatorId) && !Objects.isNull(companyId)) {
@@ -65,13 +71,15 @@ public class IndicatorValueService {
         .collect(Collectors.toList());
   }
 
-  public IndicatorValueDTO addIndicatorValue(IndicatorValueRequestDTO indicator) {
+  public IndicatorValueDTO addIndicatorValue(IndicatorValueRequestDTO indicator, String token) {
     Optional<Indicator> ind = this.indicatorRepository.findById(indicator.getIndicatorId());
     Optional<Company> company = this.companyRepository.findById(indicator.getCompanyId());
     if (ind.isPresent() && company.isPresent()) {
       IndicatorValue indicatorValue = this.indicatorValueRepository.save(Mappers.buildIndicatorValue(indicator, ind.get(), company.get()));
       indicator.setId(indicatorValue.getId());
-      return (Mappers.buildIndicatorValueDTO(indicatorValue));
+      LogDTO log = new LogDTO(jwtTokenUtil.getUsernameFromToken(token),"Added new indicator value: " + indicator.toString());
+      logService.addLog(log);
+    return (Mappers.buildIndicatorValueDTO(indicatorValue));
     }
     return null;
   }

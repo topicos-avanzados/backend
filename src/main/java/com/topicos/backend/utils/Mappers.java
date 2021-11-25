@@ -8,11 +8,8 @@ import com.topicos.backend.dto.UserDTO;
 import com.topicos.backend.dto.request.CompanyRequestDTO;
 import com.topicos.backend.dto.request.IndicatorRequestDTO;
 import com.topicos.backend.dto.request.IndicatorValueRequestDTO;
-import com.topicos.backend.persistence.model.Area;
-import com.topicos.backend.persistence.model.Company;
-import com.topicos.backend.persistence.model.Indicator;
-import com.topicos.backend.persistence.model.IndicatorValue;
-import com.topicos.backend.persistence.model.User;
+import com.topicos.backend.dto.LogDTO;
+import com.topicos.backend.persistence.model.*;
 
 public interface Mappers {
 
@@ -102,4 +99,22 @@ public interface Mappers {
         .build();
   }
 
+  static Log buildLog(LogDTO log) {
+    return Log
+            .builder()
+            .id(log.getId())
+            .email(log.getEmail())
+            .date(log.getDate())
+            .payload(log.getPayload())
+            .build();
+  }
+  static LogDTO buildLogDTO(Log log) {
+    return LogDTO
+            .builder()
+            .id(log.getId())
+            .email(log.getEmail())
+            .date(log.getDate())
+            .payload(log.getPayload())
+            .build();
+  }
 }
