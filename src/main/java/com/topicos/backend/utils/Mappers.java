@@ -15,6 +15,8 @@ import com.topicos.backend.persistence.model.Indicator;
 import com.topicos.backend.persistence.model.IndicatorValue;
 import com.topicos.backend.persistence.model.Log;
 import com.topicos.backend.persistence.model.User;
+import java.util.Objects;
+import javax.persistence.criteria.CriteriaBuilder.In;
 
 public interface Mappers {
 
@@ -54,9 +56,8 @@ public interface Mappers {
         .constant(indicator.getConstant())
         .build();
   }
-
   static IndicatorDTO buildIndicatorDTO(Indicator indicator) {
-    return IndicatorDTO
+    return  IndicatorDTO
         .builder()
         .id(indicator.getId())
         .name(indicator.getName())
@@ -66,6 +67,28 @@ public interface Mappers {
         .area(buildAreaDTO(indicator.getAreaId()))
         .description(indicator.getDescription())
         .build();
+  }
+
+  static IndicatorDTO buildIndicatorDTOExpanded(Indicator indicator, Indicator left, Indicator right) {
+    IndicatorDTO ind = IndicatorDTO
+        .builder()
+        .id(indicator.getId())
+        .name(indicator.getName())
+        .frequency(indicator.getFrequency())
+        .type(indicator.getType())
+        .unit(indicator.getUnit())
+        .area(buildAreaDTO(indicator.getAreaId()))
+        .description(indicator.getDescription())
+        .build();
+    if(!Objects.isNull(left) && !Objects.isNull(right)){
+      ind.setFormula(left.getName()+" " + indicator.getOperator()+" " + right.getName());
+    } else if (!Objects.isNull(left)){
+      ind.setFormula(left.getName() +" "+ indicator.getOperator()+" " + indicator.getConstant());
+    } else if (!Objects.isNull(right)){
+      ind.setFormula(indicator.getConstant() +" "+ indicator.getOperator()+" " + right.getName());
+    }
+
+    return ind;
   }
 
   static AreaDTO buildAreaDTO(Area area) {
@@ -110,20 +133,20 @@ public interface Mappers {
 
   static Log buildLog(LogDTO log) {
     return Log
-            .builder()
-            .id(log.getId())
-            .email(log.getEmail())
-            .date(log.getDate())
-            .payload(log.getPayload())
-            .build();
+        .builder()
+        .id(log.getId())
+        .email(log.getEmail())
+        .date(log.getDate())
+        .payload(log.getPayload())
+        .build();
   }
   static LogDTO buildLogDTO(Log log) {
     return LogDTO
-            .builder()
-            .id(log.getId())
-            .email(log.getEmail())
-            .date(log.getDate())
-            .payload(log.getPayload())
-            .build();
+        .builder()
+        .id(log.getId())
+        .email(log.getEmail())
+        .date(log.getDate())
+        .payload(log.getPayload())
+        .build();
   }
 }

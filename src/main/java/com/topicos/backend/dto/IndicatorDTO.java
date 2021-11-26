@@ -27,4 +27,6 @@ public class IndicatorDTO {
 
   private String description;
 
+  private String formula;
+
 }

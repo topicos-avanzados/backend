@@ -40,9 +40,9 @@ public class AreaController {
   @DeleteMapping("/area/delete")
   public void deleteArea(@RequestParam Long id, @RequestHeader("Authorization") String token) {
     if (this.jwtTokenUtil.getAdminFromToken(token)) {
-      this.areaService.deleteArea(id, token);
+      throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
     }
-    throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
+    this.areaService.deleteArea(id, token);
   }
 
   //GET
