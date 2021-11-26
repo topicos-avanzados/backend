@@ -1,4 +1,4 @@
-package com.topicos.backend.dto;
+package com.topicos.backend.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,12 +11,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class ChangePasswordDTO {
+  private String oldPassword;
 
-  private Long id;
-
-  private String mail;
-
-  private CompanyDTO company;
+  private String newPassword;
 
 }

@@ -39,10 +39,10 @@ public class CompanyController {
   //DELETE
   @DeleteMapping("/company/delete")
   public void deleteCompany(@RequestParam Long id, @RequestHeader("Authorization") String token) {
-    if (this.jwtTokenUtil.getAdminFromToken(token)) {
-      this.companyService.deleteCompany(id, token);
+    if (!this.jwtTokenUtil.getAdminFromToken(token)) {
+      throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
     }
-    throw new UnauthorizedException("The user is not an admin", "The user is not an admin");
+    this.companyService.deleteCompany(id, token);
   }
 
   //GET
