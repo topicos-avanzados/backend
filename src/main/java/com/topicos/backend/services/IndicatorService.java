@@ -5,6 +5,7 @@ import static com.topicos.backend.utils.Mappers.buildIndicatorDTO;
 import com.topicos.backend.dto.IndicatorDTO;
 import com.topicos.backend.dto.LogDTO;
 import com.topicos.backend.dto.request.IndicatorRequestDTO;
+import com.topicos.backend.exceptions.ApiException;
 import com.topicos.backend.persistence.model.Area;
 import com.topicos.backend.persistence.model.Indicator;
 import com.topicos.backend.persistence.repository.AreaRepository;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.persistence.criteria.CriteriaBuilder.In;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,7 @@ public class IndicatorService {
     return this.indicatorRepository
         .findAll()
         .stream()
-        .map(Mappers::buildIndicatorDTO)
+        .map(this::generateIndicatorDTOExpanded)
         .collect(Collectors.toList());
   }
 
@@ -114,5 +116,34 @@ public class IndicatorService {
     }
     return null;
   }
+
+  private IndicatorDTO generateIndicatorDTOExpanded(Indicator indicator){
+
+    if("D".equals(indicator.getType())){
+      return Mappers.buildIndicatorDTO(indicator);
+    }
+    if(!Objects.isNull(indicator.getIndicatorRight()) && !Objects.isNull(indicator.getIndicatorLeft())){
+      Optional<Indicator> left = this.indicatorRepository.findById(indicator.getIndicatorLeft());
+      Optional<Indicator> right = this.indicatorRepository.findById(indicator.getIndicatorRight());
+      if(left.isPresent() && right.isPresent()){
+        return Mappers.buildIndicatorDTOExpanded(indicator, left.get(), right.get());
+      }
+      throw new ApiException("Alguno de los indicadores dejo de existir", "Alguno de los indicadores dejo de existir", 500);
+    }else if(Objects.isNull(indicator.getIndicatorRight()) && !Objects.isNull(indicator.getIndicatorLeft())){
+      Optional<Indicator> left = this.indicatorRepository.findById(indicator.getIndicatorLeft());
+      if(left.isPresent() ){
+        return Mappers.buildIndicatorDTOExpanded(indicator, left.get(),null);
+      }
+      throw new ApiException("Alguno de los indicadores dejo de existir", "Alguno de los indicadores dejo de existir", 500);
+    }
+    else if(!Objects.isNull(indicator.getIndicatorRight()) && Objects.isNull(indicator.getIndicatorLeft())){
+      Optional<Indicator> right = this.indicatorRepository.findById(indicator.getIndicatorRight());
+      if(right.isPresent() ){
+        return Mappers.buildIndicatorDTOExpanded(indicator, null,right.get());
+      }
+      throw new ApiException("Alguno de los indicadores dejo de existir", "Alguno de los indicadores dejo de existir", 500);
+    }
+    throw new ApiException("Error", "Error", 500);
+    }
 
 }
