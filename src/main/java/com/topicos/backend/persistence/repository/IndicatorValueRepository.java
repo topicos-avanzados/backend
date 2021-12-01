@@ -13,11 +13,15 @@ public interface IndicatorValueRepository extends JpaRepository<IndicatorValue, 
 
   Optional<IndicatorValue> findById(Long id);
 
-  List<IndicatorValue> findAllByIndicatorId_Id(Long indicatorId);
+  List<IndicatorValue> findAllByIndicatorId_IdOrderByDateDesc(Long indicatorId);
 
   List<IndicatorValue> findAllByIndicatorId_IdAndCompanyId_Id(Long indicatorId, Long companyId);
 
   List<IndicatorValue> findAllByIndicatorId_IdAndCompanyId_IdOrderByDateDesc(Long indicatorId, Long companyId);
+
+  List<IndicatorValue> findAllByCompanyId_IdOrderByDateDesc(Long companyId);
+
+  List<IndicatorValue> findAllByIdIsGreaterThanOrderByDateDesc(Long greater);
 
   List<IndicatorValue> findAllByCompanyId_Id(Long companyId);
 
