@@ -26,6 +26,6 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: "9348186a-8365-4231-bea4-85f3b7f9d3eb"
-          heroku_app_name: "shrouded-thicket-05805"
+          heroku_app_name: "java-topicos"
           heroku_email: "martindrq@gmail.com"
           
