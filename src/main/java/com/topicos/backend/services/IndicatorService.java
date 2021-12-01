@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -86,7 +85,8 @@ public class IndicatorService {
   @Transactional
   public void deleteIndicator(Long indicatorId, String token) {
     Optional<Indicator> indicator = this.indicatorRepository.findById(indicatorId);
-    if (indicator.isPresent()) {
+    List<Indicator> indicatorAppearence = this.indicatorRepository.findAllByIndicatorLeftOrIndicatorRight(indicatorId, indicatorId);
+    if (indicator.isPresent() && indicatorAppearence.isEmpty()) {
       String name = indicator
           .get()
           .getName();
@@ -94,6 +94,7 @@ public class IndicatorService {
       LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se elimino el indicador: " + name);
       logService.addLog(newLog);
     }
+    throw new ApiException("No se pudo borrar el indicador", "No se pudo borrar el indicador", 500);
   }
 
   public IndicatorDTO modifyIndicator(IndicatorRequestDTO indicator, String token) {

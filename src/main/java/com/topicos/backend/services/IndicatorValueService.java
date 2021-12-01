@@ -54,19 +54,19 @@ public class IndicatorValueService {
       }
     } else if (!Objects.isNull(indicatorId)) {
       return this.indicatorValueRepository
-          .findAllByIndicatorId_Id(indicatorId)
+          .findAllByIndicatorId_IdOrderByDateDesc(indicatorId)
           .stream()
           .map(Mappers::buildIndicatorValueDTO)
           .collect(Collectors.toList());
     } else if (!Objects.isNull(companyId)) {
       return this.indicatorValueRepository
-          .findAllByCompanyId_Id(indicatorId)
+          .findAllByCompanyId_IdOrderByDateDesc(indicatorId)
           .stream()
           .map(Mappers::buildIndicatorValueDTO)
           .collect(Collectors.toList());
     }
     return this.indicatorValueRepository
-        .findAll()
+        .findAllByIdIsGreaterThanOrderByDateDesc(0L)
         .stream()
         .map(Mappers::buildIndicatorValueDTO)
         .collect(Collectors.toList());

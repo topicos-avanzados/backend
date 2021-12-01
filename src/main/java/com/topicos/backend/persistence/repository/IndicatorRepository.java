@@ -12,4 +12,7 @@ public interface IndicatorRepository extends JpaRepository<Indicator, Long> {
   Optional<Indicator> findById(Long id);
 
   List<Indicator> findAllByAreaId_Id(Long areaId);
+
+  List<Indicator> findAllByIndicatorLeftOrIndicatorRight(Long indicatorLeft, Long indicatorRight);
+
 }
