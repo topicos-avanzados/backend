@@ -146,41 +146,6 @@ public class UserService {
     throw new ApiException("Invalid credentials", "Invalid credentials", 404);
   }
 
-  public UserLoginDTO newAdmin(UserCredentialDTO userRequestDTO) {
-    Optional<User> user = userRepository.findByMail(userRequestDTO.getMail());
-    Company company = this.companyRepository
-        .findByName("DERES")
-        .orElseGet(() -> this.companyRepository.save(Company
-            .builder()
-            .name("DERES")
-            .businessName("Deres")
-            .businessArea("General")
-            .rut(1234)
-            .build()));
-    if (user.isEmpty()) {
-      User newUser = User
-          .builder()
-          .admin(true)
-          .active(true)
-          .mail(userRequestDTO.getMail())
-          .password(bcryptEncoder.encode(userRequestDTO.getPassword()))
-          .companyId(company)
-          .build();
-
-      userRepository.save(newUser);
-
-      UserDetails details = this.jwtUserDetailsService.loadUserByUsername(userRequestDTO.getMail());
-      String token = this.jwtTokenUtil.generateToken(details, true, company.getId());
-
-      LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se registro un nuevo admin: " + userRequestDTO.getMail());
-      logService.addLog(newLog);
-
-      return new UserLoginDTO(token, Mappers.buildCompanyDTO(company));
-    }
-    throw new ApiException("ERROR", "user ya registrado", HttpStatus.BAD_REQUEST.value());
-  }
-
-
   public void deleteUser(Long id, String token) {
     Optional<User> user = this.userRepository.findById(id);
     if (user.isPresent()) {
