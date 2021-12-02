@@ -93,6 +93,7 @@ public class IndicatorService {
       this.indicatorRepository.delete(indicator.get());
       LogDTO newLog = new LogDTO(jwtTokenUtil.getUsernameFromToken(token), "Se elimino el indicador: " + name);
       logService.addLog(newLog);
+      return;
     }
     throw new ApiException("No se pudo borrar el indicador", "No se pudo borrar el indicador", 500);
   }
@@ -115,7 +116,7 @@ public class IndicatorService {
 
       return buildIndicatorDTO(indicatorToSave);
     }
-    return null;
+    throw new ApiException("No se pudo actualizar el indicador", "No se pudo actualizar el indicador", 500);
   }
 
   private IndicatorDTO generateIndicatorDTOExpanded(Indicator indicator){
