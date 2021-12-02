@@ -58,7 +58,7 @@ public class StatsService {
     int users = this.userRepository
         .findAllByCompanyId_Id(companyId)
         .size();
-    List<IndicatorValue> indicatorsValues = this.indicatorValueRepository.findAllByIndicatorId_IdOrderByDateDesc(companyId);
+    List<IndicatorValue> indicatorsValues = this.indicatorValueRepository.findAllByCompanyId_Id(companyId);
     Set<Indicator> indicators = indicatorsValues
         .stream()
         .map(IndicatorValue::getIndicatorId)

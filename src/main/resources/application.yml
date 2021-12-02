@@ -8,6 +8,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+      connection-timeout: 30000
+      max-lifetime: 30000
+      maximum-pool-size: 5
     database-platform: org.hibernate.dialect.MySQL8Dialect
   jwt:
     secret: grupo-51373
