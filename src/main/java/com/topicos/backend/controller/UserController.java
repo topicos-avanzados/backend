@@ -51,11 +51,6 @@ public class UserController {
     return this.userService.loginAndGenerateToken(user);
   }
 
-  @PostMapping(value = "/user/admin")
-  public UserLoginDTO newAdmin(@RequestBody UserCredentialDTO user) {
-    return this.userService.newAdmin(user);
-  }
-
   //DELETE
   @DeleteMapping("/user/delete")
   public void deleteUser(@RequestParam Long id, @RequestHeader("Authorization") String token) {
