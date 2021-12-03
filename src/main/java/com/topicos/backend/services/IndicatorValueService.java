@@ -60,7 +60,7 @@ public class IndicatorValueService {
           .collect(Collectors.toList());
     } else if (!Objects.isNull(companyId)) {
       return this.indicatorValueRepository
-          .findAllByCompanyId_IdOrderByDateDesc(indicatorId)
+          .findAllByCompanyId_IdOrderByDateDesc(companyId)
           .stream()
           .map(Mappers::buildIndicatorValueDTO)
           .collect(Collectors.toList());
